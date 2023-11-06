@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/pages/courses.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:scheduler/utilities/table_scheduler.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -20,7 +21,10 @@ class Home extends StatelessWidget {
           ),
           actions: [
             ElevatedButton(
-              child: Icon(Icons.add_circle, color: Colors.black,),
+              child: Icon(
+                Icons.add_circle,
+                color: Colors.black,
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/courses');
               },
@@ -29,10 +33,12 @@ class Home extends StatelessWidget {
             //IconButton(onPressed: () {},  icon: Icon(Icons.add_circle, color: Colors.black,))
           ],
         ),
-        drawer: Drawer(   
+        drawer: Drawer(
           child: Column(
             children: [
-              DrawerHeader(child: Text("HorarioHarmony"),),
+              DrawerHeader(
+                child: Text("HorarioHarmony"),
+              ),
               ListTile(
                 leading: Icon(Icons.share),
                 title: Text("Compartir/Exportar"),
@@ -41,10 +47,11 @@ class Home extends StatelessWidget {
           ),
         ),
         body: Container(
-          child: SfCalendar(
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical, child: HorarioTable()),
+          /*SfCalendar(
             view: CalendarView.week,
-          ),
-        )
-      );
+          ),*/
+        ));
   }
 }
