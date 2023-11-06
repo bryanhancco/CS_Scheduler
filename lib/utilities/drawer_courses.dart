@@ -15,22 +15,34 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         children: [
           Container(
-            height: 60, // Ajusta la altura del DrawerHeader
-            decoration: BoxDecoration(
+            height: 100, // Ajusta la altura del DrawerHeader
+            decoration: const BoxDecoration(
               color: Colors.blue, // Color de fondo personalizado
             ),
-            child: DrawerHeader(
-              child: Text(
-                "HorarioHarmony",
-                style: TextStyle(
-                  fontSize: 20, // Tamaño de fuente personalizado
-                ),
-              ),
+            child: const DrawerHeader(
               margin: EdgeInsets.all(0), // Sin margen
               padding: EdgeInsets.all(10), // Añade relleno personalizado
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 40.0,
+                    width: double.infinity,
+                    child: Image(image: AssetImage('assets/LogoHorario.jpg')),
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Text(
+                    "HorarioHarmony",
+                    style: TextStyle(
+                      fontSize: 20, // Tamaño de fuente personalizado
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          ListTile(
+          const ListTile(
             leading: Icon(Icons.share),
             title: Text("Compartir/Exportar"),
           ),

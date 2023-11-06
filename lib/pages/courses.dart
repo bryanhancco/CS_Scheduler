@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/pages/home.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 
@@ -39,6 +38,7 @@ class _CoursesState extends State<Courses> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -64,7 +64,7 @@ class _CoursesState extends State<Courses> {
         actions: [
           IconButton(
               onPressed: createNewCourse,
-              icon: Icon(
+              icon: const Icon(
                 Icons.add_circle,
                 color: Colors.black,
               ))
