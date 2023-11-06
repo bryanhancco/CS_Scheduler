@@ -27,7 +27,10 @@ class Home extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.pushNamed(context, '/courses');
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext) {
+                  return Courses();
+                }));
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
             ),

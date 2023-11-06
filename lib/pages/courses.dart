@@ -17,7 +17,7 @@ class _CoursesState extends State<Courses> {
     "Metodos Numericos",
     "Redes",
   ];
-  
+
   void saveNewCourse() {
     setState(() {
       coursesList.add(_controller.text);
@@ -28,43 +28,49 @@ class _CoursesState extends State<Courses> {
 
   void createNewCourse() {
     showDialog(
-      context: context, 
+      context: context,
       builder: (context) {
         return CreateDialogBox(
           controller: _controller,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
         );
-    },);
+      },
+    );
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text(
-            "Cursos",
-            style: TextStyle(
-              color: Color.fromRGBO(0, 137, 236, 1),
-              fontWeight: FontWeight.bold,
-              fontSize: 27,
-            ),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
+        title: const Text(
+          "Cursos",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 27,
           ),
-          
-          leading: ElevatedButton(
+        ),
+
+        /*leading: ElevatedButton(
             child: Icon(Icons.arrow_circle_left_outlined, color: Colors.black,),
             onPressed: () {
               Navigator.pushNamed(context, '/home');
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-          ), 
-          
-          actions: [
-            IconButton(onPressed: createNewCourse,  icon: Icon(Icons.add_circle, color: Colors.black,))
-          ],
-        ),
-        body: ListView.builder(
+          ), */
+
+        actions: [
+          IconButton(
+              onPressed: createNewCourse,
+              icon: Icon(
+                Icons.add_circle,
+                color: Colors.black,
+              ))
+        ],
+      ),
+      body: ListView.builder(
         itemCount: coursesList.length,
         itemBuilder: (context, index) {
           return CoursesTile(
@@ -72,9 +78,9 @@ class _CoursesState extends State<Courses> {
           );
         },
       ),
-        /*body: Container(
+      /*body: Container(
           child: SfCalendar(),
         )*/
-      );
+    );
   }
 }
