@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/pages/courses.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:scheduler/utilities/table_scheduler.dart';
+import 'package:scheduler/utilities/drawer_courses.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -33,7 +34,7 @@ class Home extends StatelessWidget {
             //IconButton(onPressed: () {},  icon: Icon(Icons.add_circle, color: Colors.black,))
           ],
         ),
-        drawer: Drawer(
+        /*drawer: Drawer(
           child: Column(
             children: [
               DrawerHeader(
@@ -45,7 +46,8 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ),*/
+        drawer: MyDrawer(),
         body: Container(
           child: SingleChildScrollView(
               scrollDirection: Axis.vertical, child: HorarioTable()),
