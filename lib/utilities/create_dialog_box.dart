@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 
-class CreateDialogBox extends StatelessWidget {
+class CreateDialogBox extends StatefulWidget {
   final controller;
-  VoidCallback onSave;
-  VoidCallback onCancel;
+  final VoidCallback onSave;
+  final VoidCallback onCancel;
+  const CreateDialogBox(
+      {Key? key,
+      required this.controller,
+      required this.onSave,
+      required this.onCancel})
+      : super(key: key);
+  @override
+  _CreateDialogBoxState createState() => _CreateDialogBoxState();
+}
 
-  CreateDialogBox({
-    super.key, 
-    required this.controller,
-    required this.onSave,
-    required this.onCancel,
-  });
-
+class _CreateDialogBoxState extends State<CreateDialogBox> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       content: Container(
         height: 256,
         child: Column(
@@ -24,21 +28,22 @@ class CreateDialogBox extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Creando Curso..."),
-                IconButton(onPressed: onCancel, icon: Icon(Icons.cancel)),
+                const Text("Creando Curso..."),
+                IconButton(
+                    onPressed: widget.onCancel, icon: const Icon(Icons.cancel)),
               ],
             ),
             TextField(
-              controller: controller,
-              decoration: InputDecoration(
+              controller: widget.controller,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Ingrese el curso",
               ),
             ),
             MaterialButton(
-              onPressed: onSave,
-              color: Color.fromRGBO(0, 137, 236, 1),
-              child: Text("Agregar"),
+              onPressed: widget.onSave,
+              color: const Color.fromRGBO(0, 137, 236, 1),
+              child: const Text("Agregar"),
             ),
           ],
         ),
@@ -46,4 +51,3 @@ class CreateDialogBox extends StatelessWidget {
     );
   }
 }
-

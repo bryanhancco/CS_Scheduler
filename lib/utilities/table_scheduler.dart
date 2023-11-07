@@ -36,9 +36,9 @@ class HorarioTable extends StatelessWidget {
         alignment: Alignment.center,
         child: Table(
           columnWidths: {
-            0: IntrinsicColumnWidth(), // Ancho ajustado al contenido para la primera columna
+            0: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para la primera columna
             for (int i = 1; i <= diasSemana.length; i++)
-              i: IntrinsicColumnWidth(), // Ancho ajustado al contenido para las demás columnas
+              i: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para las demás columnas
           },
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           border: TableBorder.all(),
@@ -65,12 +65,12 @@ class HorarioTable extends StatelessWidget {
                     ),
                   ),
                   for (var dia in diasSemana)
-                    TableCell(
+                    const TableCell(
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(
+                          padding: EdgeInsets.all(
                               8.0), // Añade un margen entre las celdas
-                          child: Text('Clase\nMateria'),
+                          child: Text('Clase\nMateria LArga xdxdxd'),
                         ),
                       ),
                     ),
