@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduler/classes/curso.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -6,8 +7,8 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  List<String> items = ['Elemento 1', 'Elemento 2', 'Elemento 3', 'Elemento 4'];
-  List<bool> isChecked = [false, false, false, false];
+  List<Curso> items = Curso.ejemplos;
+  List<bool> isChecked = List.generate(Curso.ejemplos.length, (index) => true);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           for (int index = 0; index < items.length; index++)
             ListTile(
-              title: Text(items[index]),
+              title: Text(items[index].nombre),
               leading: Checkbox(
                 value: isChecked[index],
                 onChanged: (value) {
