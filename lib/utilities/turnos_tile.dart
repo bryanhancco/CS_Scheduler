@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/curso.dart';
 import 'package:scheduler/pages/detallesCursoPage.dart';
+import 'package:scheduler/utilities/create_dialog_box.dart';
+import 'package:scheduler/utilities/create_dialog_boxTurno.dart';
 
-class CoursesTile extends StatelessWidget {
-  final Curso curso;
+class TurnosTile extends StatelessWidget {
+  final Turno turno;
 
-  const CoursesTile({
+  const TurnosTile({
     super.key,
-    required this.curso,
+    required this.turno,
   });
+  void saveDataTurno() {
+    print('Aqui se graba y se envia a la BD');
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Aquí puedes definir la acción que se ejecutará al tocar el elemento de la lista
-        // Por ejemplo, navegación a otra página:
-        Navigator.of(context).push(MaterialPageRoute(
+        showDialog(
+          context: context,
           builder: (context) {
-            return DetallesCursoPage(curso: curso);
+            return CreateDialogBoxTurno(
+              onSave: saveDataTurno,
+              onCancel: () => Navigator.of(context).pop(),
+            );
           },
-        ));
+        );
       },
+      // Aquí puedes definir la acción que se ejecutará al tocar el elemento de la lista
+      // Por ejemplo, navegacturna otra página:
       child: Padding(
         padding: const EdgeInsets.only(top: 18, left: 15, right: 15),
         child: Container(
@@ -40,7 +49,7 @@ class CoursesTile extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                curso.nombre,
+                turno.turnoName,
                 style: const TextStyle(
                   fontSize: 27,
                 ),

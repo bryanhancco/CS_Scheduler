@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-class CreateDialogBox extends StatefulWidget {
-  final controller;
+class CreateDialogBoxTurno extends StatefulWidget {
   final VoidCallback onSave;
   final VoidCallback onCancel;
-  final categoria;
-  const CreateDialogBox(
-      {Key? key,
-      required this.controller,
-      required this.onSave,
-      required this.onCancel,
-      required this.categoria})
-      : super(key: key);
+  const CreateDialogBoxTurno({
+    Key? key,
+    required this.onSave,
+    required this.onCancel,
+  }) : super(key: key);
   @override
-  _CreateDialogBoxState createState() => _CreateDialogBoxState();
+  _CreateDialogBoxTurnoState createState() => _CreateDialogBoxTurnoState();
 }
 
-class _CreateDialogBoxState extends State<CreateDialogBox> {
+class _CreateDialogBoxTurnoState extends State<CreateDialogBoxTurno> {
   List<String> opciones = ['Obligatorio', 'Selectivo'];
   // ignore: non_constant_identifier_names
   String selectedOption = 'Obligatorio';
@@ -40,7 +36,6 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
             ),
             Text('Nombre el Curso'),
             TextField(
-              controller: widget.controller,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Ingrese el curso",
@@ -57,7 +52,6 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
                   setState(() {
                     selectedOption = value!;
                   });
-                  widget.categoria.text = value;
                 }),
             MaterialButton(
               onPressed: widget.onSave,

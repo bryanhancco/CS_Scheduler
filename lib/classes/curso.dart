@@ -5,9 +5,10 @@ class Curso {
   List<String> docentes;
   bool obligatorio;
   List<int> preferencias;
+  List<Turno> turnos;
 
   Curso(this.nombre, this.aulas, this.horas, this.docentes, this.obligatorio,
-      this.preferencias);
+      this.preferencias, this.turnos);
 
   Curso.empty(
     this.nombre,
@@ -15,7 +16,8 @@ class Curso {
   )   : aulas = [],
         docentes = [],
         horas = [],
-        preferencias = [];
+        preferencias = [],
+        turnos = [];
 
   static List<Curso> ejemplos = [
     Curso(
@@ -28,7 +30,18 @@ class Curso {
         ],
         ["Olha", "Olha", "Olha"],
         true,
-        []),
+        [],
+        [
+          Turno('A', 'Olha', [
+            Horario('Lunes', '8:00', '8:40'),
+          ]),
+          Turno('B', 'Norka', [
+            Horario('Martes', '8:50', '9:40'),
+          ]),
+          Turno('C', 'NorkaOlha', [
+            Horario('Miercoles', '13:00', '13:40'),
+          ]),
+        ]),
     Curso(
         "Sistemas Operativos",
         ["306", "306", "306"],
@@ -39,6 +52,7 @@ class Curso {
         ],
         ["Karim", "Aceituno", "Karim"],
         true,
+        [],
         []),
     Curso(
         "Construcción de Software",
@@ -49,6 +63,7 @@ class Curso {
         ],
         ["Arroyo", "Arroyo"],
         true,
+        [],
         []),
     Curso(
         "Tecnología de objetos",
@@ -60,6 +75,7 @@ class Curso {
         ],
         ["Bornas", "Bornas", "Sardón"],
         true,
+        [],
         []),
     Curso(
         "Redes",
@@ -70,6 +86,7 @@ class Curso {
         ],
         ["Lucy", "Lino"],
         true,
+        [],
         []),
     Curso(
         "IDSE",
@@ -80,6 +97,7 @@ class Curso {
         ],
         ["Giovanni", "Giovanni"],
         true,
+        [],
         []),
     Curso(
         "Aspectos",
@@ -91,6 +109,7 @@ class Curso {
         ],
         ["Maribel", "Maribel", "Maribel"],
         true,
+        [],
         []),
     Curso(
         "Fundamentos",
@@ -102,6 +121,7 @@ class Curso {
         ],
         ["Juarez", "Juarez", "Juarez"],
         true,
+        [],
         []),
     Curso(
         "Lab- MN",
@@ -114,6 +134,7 @@ class Curso {
         ],
         ["Polanco", "Polanco", "Polanco", "Polanco"],
         true,
+        [],
         []),
     Curso(
         "Lab- CS",
@@ -125,6 +146,7 @@ class Curso {
         ],
         ["Arroyo", "Arroyo", "Arroyo"],
         true,
+        [],
         []),
     Curso(
         "Lab- SO",
@@ -137,6 +159,7 @@ class Curso {
         ],
         ["Aceituno", "Aceituno", "Aceituno", "Aceituno"],
         true,
+        [],
         []),
     Curso(
         "Lab- Aspectos",
@@ -149,6 +172,7 @@ class Curso {
         ],
         ["Maribel", "Maribel", "Ramiro", "Ramiro"],
         true,
+        [],
         []),
     Curso(
         "Lab Redes",
@@ -159,6 +183,7 @@ class Curso {
         ],
         ["Lucy", "Lino"],
         true,
+        [],
         []),
     Curso(
         "Lab- TO",
@@ -172,6 +197,7 @@ class Curso {
         ],
         ["Bornas", "Bornas", "Karen", "Karen", "Karen"],
         true,
+        [],
         []),
     Curso(
         "Lab - IDSE",
@@ -183,6 +209,21 @@ class Curso {
         ],
         ["Giovanni", "Giovanni", "Giovanni"],
         true,
+        [],
         []),
   ];
+}
+
+class Turno {
+  final String turnoName;
+  final String docente;
+  List<Horario> horas = [];
+  Turno(this.turnoName, this.docente, this.horas);
+}
+
+class Horario {
+  final String dia;
+  final String horaInicio;
+  final String horaFin;
+  Horario(this.dia, this.horaInicio, this.horaFin);
 }

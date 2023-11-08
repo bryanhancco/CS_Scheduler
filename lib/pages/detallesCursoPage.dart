@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/curso.dart';
-import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
+import 'package:scheduler/utilities/turnos_tile.dart';
 
-class Courses extends StatefulWidget {
-  const Courses({super.key});
+class DetallesCursoPage extends StatefulWidget {
+  final Curso curso;
+  const DetallesCursoPage({Key? key, required this.curso});
 
   @override
-  State<Courses> createState() => _CoursesState();
+  State<DetallesCursoPage> createState() => _DetallesCursoPageState();
 }
 
-class _CoursesState extends State<Courses> {
+class _DetallesCursoPageState extends State<DetallesCursoPage> {
   final _controller = TextEditingController();
   final _categoria = TextEditingController();
   bool categoria = true;
@@ -51,8 +52,8 @@ class _CoursesState extends State<Courses> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
-        title: const Text(
-          "Cursos",
+        title: Text(
+          widget.curso.nombre.toString(),
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -78,11 +79,18 @@ class _CoursesState extends State<Courses> {
         ],
       ),
       body: ListView.builder(
-        itemCount: coursesList.length,
+        itemCount: widget.curso.turnos.length,
         itemBuilder: (context, index) {
-          return CoursesTile(
-            curso: coursesList[index],
-          );
+          if (widget.curso.turnos.isEmpty) {
+            print('esta vacio');
+            return const Center(
+              child: Text('Aun no tiene turnos este curso'),
+            );
+          } else {
+            return TurnosTile(
+              turno: widget.curso.turnos[index],
+            );
+          }
         },
       ),
       /*body: Container(
