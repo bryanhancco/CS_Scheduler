@@ -4,11 +4,13 @@ class CreateDialogBox extends StatefulWidget {
   final controller;
   final VoidCallback onSave;
   final VoidCallback onCancel;
+  final categoria;
   const CreateDialogBox(
       {Key? key,
       required this.controller,
       required this.onSave,
-      required this.onCancel})
+      required this.onCancel,
+      required this.categoria})
       : super(key: key);
   @override
   _CreateDialogBoxState createState() => _CreateDialogBoxState();
@@ -43,13 +45,13 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
               ),
             ),
             Text('Categoria'),
-            DropdownButton<String>(
+            DropdownButton(
                 value: opciones[0],
                 items: opciones.map((String option) {
                   return DropdownMenuItem(value: option, child: Text(option));
                 }).toList(),
                 onChanged: (String? value) {
-                  print(value);
+                  widget.categoria.text = value;
                 }),
             MaterialButton(
               onPressed: widget.onSave,

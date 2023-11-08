@@ -13,12 +13,14 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   final _controller = TextEditingController();
+  final _categoria = TextEditingController();
   bool categoria = true;
 
   List coursesList = Curso.ejemplos;
 
   void saveNewCourse() {
     setState(() {
+      categoria = (_categoria.text == 'obligatorio') ? true : false;
       Curso curso = Curso.empty(_controller.text, categoria);
       coursesList.add(curso);
       _controller.clear();
@@ -34,6 +36,7 @@ class _CoursesState extends State<Courses> {
           controller: _controller,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
+          categoria: _categoria,
         );
       },
     );
