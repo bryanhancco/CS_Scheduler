@@ -15,6 +15,7 @@ class CreateDialogBox extends StatefulWidget {
 }
 
 class _CreateDialogBoxState extends State<CreateDialogBox> {
+  List<String> opciones = ['Obligatorio', 'Selectivo'];
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
                     onPressed: widget.onCancel, icon: const Icon(Icons.cancel)),
               ],
             ),
+            Text('Nombre el Curso'),
             TextField(
               controller: widget.controller,
               decoration: const InputDecoration(
@@ -40,6 +42,15 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
                 hintText: "Ingrese el curso",
               ),
             ),
+            Text('Categoria'),
+            DropdownButton<String>(
+                value: opciones[0],
+                items: opciones.map((String option) {
+                  return DropdownMenuItem(value: option, child: Text(option));
+                }).toList(),
+                onChanged: (String? value) {
+                  print(value);
+                }),
             MaterialButton(
               onPressed: widget.onSave,
               color: const Color.fromRGBO(0, 137, 236, 1),
