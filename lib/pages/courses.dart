@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/cursoNuevo.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 
@@ -12,12 +13,14 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   final _controller = TextEditingController();
+  bool categoria = true;
 
   List coursesList = Curso.ejemplos;
 
   void saveNewCourse() {
     setState(() {
-      coursesList.add(_controller.text);
+      Curso curso = Curso.empty(_controller.text, categoria);
+      coursesList.add(curso);
       _controller.clear();
     });
     Navigator.of(context).pop();
