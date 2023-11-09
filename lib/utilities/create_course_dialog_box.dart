@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CreateDialogBox extends StatefulWidget {
+class CreateCourseDialogBox extends StatefulWidget {
   final controllerCourseShortName;
   final controllerCourseName;
   final VoidCallback onSave;
   final VoidCallback onCancel;
   final categoria;
-  const CreateDialogBox(
+
+  const CreateCourseDialogBox(
       {Key? key,
       required this.controllerCourseShortName,      
       required this.controllerCourseName,
@@ -15,10 +16,10 @@ class CreateDialogBox extends StatefulWidget {
       required this.categoria})
       : super(key: key);
   @override
-  _CreateDialogBoxState createState() => _CreateDialogBoxState();
+  _CreateCourseDialogBoxState createState() => _CreateCourseDialogBoxState();
 }
 
-class _CreateDialogBoxState extends State<CreateDialogBox> {
+class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
   List<String> opciones = ['Obligatorio', 'Selectivo'];
   // ignore: non_constant_identifier_names
   String selectedOption = 'Obligatorio';
