@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -16,14 +17,15 @@ class _CoursesState extends State<Courses> {
   final _controllerCategoria = TextEditingController();
   int categoria = 1;
 
-  List coursesList = Curso.ejemplos;
-
-  void saveNewCourse() {
+  Future<void> addCourse(Curso course) async {
+    await SchedulerDatabase.instance.insertCourse(course);
+  }
+  saveNewCourse() {
     setState(() {
       // print('categoria ' + _categoria.text);
       categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
       Curso curso = Curso.empty(_controllerCourseShortName.text, _controllerCourseName.text, categoria);
-      coursesList.add(curso);
+      addCourse(curso);
       _controllerCourseShortName.clear();
       _controllerCourseName.clear();
     });
@@ -34,7 +36,7 @@ class _CoursesState extends State<Courses> {
     showDialog(
       context: context,
       builder: (context) {
-        return CreateDialogBox(
+        return CreateDialogBox (
           controllerCourseShortName: _controllerCourseShortName,
           controllerCourseName: _controllerCourseName,
           onSave: saveNewCourse,
@@ -77,17 +79,30 @@ class _CoursesState extends State<Courses> {
               ))
         ],
       ),
-      body: ListView.builder(
-        itemCount: coursesList.length,
-        itemBuilder: (context, index) {
-          return CoursesTile(
-            curso: coursesList[index],
-          );
-        },
-      ),
-      /*body: Container(
-          child: SfCalendar(),
-        )*/
+      body: FutureBuilder(
+        future: SchedulerDatabase.instance.getAllCursos(), 
+        builder: (BuildContext context, AsyncSnapshot<List<Curso>> snapshot) {
+          if (snapshot.hasData) {
+          List<Curso> courses = snapshot.data!;
+          return courses.isEmpty 
+            ? Center(child: Text("No hay Cursos!", style: TextStyle(fontSize: 20),)) 
+            : ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return CoursesTile(curso: courses[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 10,
+              ),
+              itemCount: courses.length,
+            );
+          }
+          else {
+            return const Center(
+              child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
+            );
+          }
+        }
+      ) 
     );
   }
 }

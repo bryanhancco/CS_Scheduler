@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/pages/detallesCursoPage.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class CoursesTile extends StatelessWidget {
   final Curso curso;
@@ -19,7 +20,7 @@ class CoursesTile extends StatelessWidget {
         // Por ejemplo, navegación a otra página:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
-            return DetallesCursoPage(curso: curso);
+            return DetallesCursoPage(curCod: curso.CurCod);
           },
         ));
       },

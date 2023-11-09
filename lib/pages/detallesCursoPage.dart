@@ -2,62 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 import 'package:scheduler/utilities/turnos_tile.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class DetallesCursoPage extends StatefulWidget {
-  final Curso curso;
-  const DetallesCursoPage({super.key, required this.curso});
+  final String curCod;
+  const DetallesCursoPage({super.key, required this.curCod});
 
   @override
-  State<DetallesCursoPage> createState() => _DetallesCursoPageState();
+  State<DetallesCursoPage> createState() => _DetallesCursoPageState(curCod: curCod);
+
 }
 
 class _DetallesCursoPageState extends State<DetallesCursoPage> {
-  final _controllerCourseCod = TextEditingController();  
-  final _controllerCourseName = TextEditingController();
-  final _categoria = TextEditingController();
-  int categoria = 1;
-  /*
-  List coursesList = Curso.ejemplos;
+  final String curCod;
+  final _controllerTurnoLetra = TextEditingController();  
+  final _controllerTurnoDocente = TextEditingController();
+  _DetallesCursoPageState({required this.curCod});
 
-  void saveNewCourse() {
+  void saveNewShift() {
     setState(() {
       // print('categoria ' + _categoria.text);
-      categoria = (_categoria.text == 'Obligatorio') ? 1 : 0;
-      Curso curso = Curso.empty(_controllerCourseCod.text, _controllerCourseName.text, categoria);
-      /*print('se creo ruso ' +
-          curso.nombre.toString() +
-          curso.obligatorio.toString());*/
-      coursesList.add(curso);
-      _controllerCourseCod.clear();
-      _controllerCourseName.clear();
+      Turno shift = Turno.empty(curCod + _controllerTurnoLetra.text, curCod, _controllerTurnoLetra.text, _controllerTurnoDocente.text);
+      _controllerTurnoLetra.clear();
+      _controllerTurnoDocente.clear();
     });
     Navigator.of(context).pop();
   }
 
-  void createNewCourse() {
+  void createNewShift() {
     showDialog(
       context: context,
       builder: (context) {
+        return Placeholder();
+        /*
         return CreateDialogBox(
           controller: _controller,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
           categoria: _categoria,
         );
+        */
       },
     );
   }
-  */
+  
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
-    /*
-    Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
         title: Text(
-          widget.curso.cu.toString(),
+          "Turnos",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -65,40 +61,39 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
           ),
         ),
 
-        /*leading: ElevatedButton(
-            child: Icon(Icons.arrow_circle_left_outlined, color: Colors.black,),
-            onPressed: () {
-              Navigator.pushNamed(context, '/home');
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-          ), */
-
         actions: [
           IconButton(
-              onPressed: createNewCourse,
+              onPressed: createNewShift,
               icon: const Icon(
                 Icons.add_circle,
                 color: Colors.black,
               ))
         ],
       ),
-      body: ListView.builder(
-        itemCount: widget.curso.turnos.length,
-        itemBuilder: (context, index) {
-          if (widget.curso.turnos.isEmpty) {
-            print('esta vacio');
-            return const Center(
-              child: Text('Aun no tiene turnos este curso'),
+      body: FutureBuilder(
+        future: SchedulerDatabase.instance.getAllTurnos(curCod), 
+        builder: (BuildContext context, AsyncSnapshot<List<Turno>> snapshot) {
+          if (snapshot.hasData) {
+          List<Turno> turnos = snapshot.data!;
+          return turnos.isEmpty 
+            ? Center(child: Text("No hay Turnos!", style: TextStyle(fontSize: 20),)) 
+            : ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return Placeholder();
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 10,
+              ),
+              itemCount: turnos.length,
             );
           }
-          return TurnosTile(
-            turno: widget.curso.turnos[index],
-          );
-        },
-      ),
-      /*body: Container(
-          child: SfCalendar(),
-        )*/
-    );*/
+          else {
+            return const Center(
+              child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
+            );
+          }
+        }
+      )
+    );
   }
 }

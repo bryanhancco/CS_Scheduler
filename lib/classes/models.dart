@@ -3,35 +3,60 @@ class Curso {
   final String CurNom;
   final int isObligatorio;
 
-  Curso(this.CurCod, this.CurNom, this.isObligatorio);
-
+  Curso({required this.CurCod,required  this.CurNom,required  this.isObligatorio});
+  
   static List<Curso> ejemplos = [
     Curso(
-        'MN',
-        'Metodos Numéricos',
-        1,),
+        CurCod: 'MN',
+        CurNom: 'Metodos Numéricos',
+        isObligatorio: 1,),
   ];
-
+  
   Curso.empty(
     this.CurCod,
     this.CurNom,
     this.isObligatorio
   );
+
+  Map<String, dynamic> toMap() {
+    return {
+      'CurCod': CurCod,
+      'CurNom': CurNom,
+      'CurReq': isObligatorio,
+    };
+  }
 }
 
 class Turno {
   final String TurCod;
-  final int TurCurCod;
+  final String TurCurCod;
   final String TurLet;
   final String TurDoc;
   
-  Turno(this.TurCod, this.TurCurCod, this.TurLet, this.TurDoc);
+  Turno({required this.TurCod, required this.TurCurCod, required this.TurLet, required this.TurDoc});
+  
+  Turno.empty(
+    this.TurCod,
+    this.TurCurCod,
+    this.TurLet,
+    this.TurDoc,
+  );
 
+  /*
   static List<Turno> ejeTur = [
     Turno('MN_A',1703244, 'A', 'Olha'),
     Turno('MN_B', 1703244, 'B', 'Norka'),
     Turno('MN_C', 1703244, 'C', 'Olha'),
   ];
+  */
+  Map<String, dynamic> toMap() {
+    return {
+      'TurCod': TurCod,
+      'TurCurCod': TurCurCod,
+      'TurLet': TurLet,
+      'TurDoc': TurDoc
+    };
+  }
 }
 
 class Horario {
