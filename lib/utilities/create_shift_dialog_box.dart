@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/models.dart';
 
 class CreateTurnoDialogBox extends StatefulWidget {
   final controllerTurnoLetra;
@@ -43,7 +42,7 @@ class _CreateTurnoDialogBoxState extends State<CreateTurnoDialogBox> {
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Turno',
+                'Turno:',
               ),
             ),
             TextField(
@@ -56,7 +55,7 @@ class _CreateTurnoDialogBoxState extends State<CreateTurnoDialogBox> {
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Turno',
+                'Docente:',
               ),
             ),
             TextField(

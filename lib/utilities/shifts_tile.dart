@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/utilities/detail_shift.dart';
 
 class ShiftsTile extends StatelessWidget {
   final Turno turno;
@@ -8,20 +9,21 @@ class ShiftsTile extends StatelessWidget {
     super.key,
     required this.turno,
   });
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    void showInfo() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return DetailShiftDialogBox(turno: turno);
+        },
+      );
+    }
+
     return GestureDetector(
-      onTap: () {
-        // Aquí puedes definir la acción que se ejecutará al tocar el elemento de la lista
-        // Por ejemplo, navegación a otra página:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) {
-            return Placeholder();
-          },
-        ));
-      },
+      onTap: showInfo,
       child: Padding(
         padding: const EdgeInsets.only(top: 18, left: 15, right: 15),
         child: Container(
