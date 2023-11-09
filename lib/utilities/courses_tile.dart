@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/pages/detallesCursoPage.dart';
 
 class CoursesTile extends StatelessWidget {
@@ -40,7 +40,7 @@ class CoursesTile extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                curso.nombre,
+                curso.CurNom,
                 style: const TextStyle(
                   fontSize: 27,
                 ),

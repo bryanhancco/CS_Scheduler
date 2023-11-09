@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CreateDialogBox extends StatefulWidget {
-  final controller;
+  final controllerCourseShortName;
+  final controllerCourseName;
   final VoidCallback onSave;
   final VoidCallback onCancel;
   final categoria;
   const CreateDialogBox(
       {Key? key,
-      required this.controller,
+      required this.controllerCourseShortName,      
+      required this.controllerCourseName,
       required this.onSave,
       required this.onCancel,
       required this.categoria})
@@ -27,20 +29,28 @@ class _CreateDialogBoxState extends State<CreateDialogBox> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       content: Container(
-        height: 256,
+        height: 350,
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Creando Curso..."),
+                const Text("Creando Curso...", style: TextStyle(fontWeight: FontWeight.bold),),
                 IconButton(
                     onPressed: widget.onCancel, icon: const Icon(Icons.cancel)),
               ],
             ),
-            Text('Nombre el Curso'),
+            Text('Codigo del Curso'),
             TextField(
-              controller: widget.controller,
+              controller: widget.controllerCourseShortName,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Ingrese las iniciales del curso",
+              ),
+            ),
+            Text('Nombre del Curso'),
+            TextField(
+              controller: widget.controllerCourseName,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Ingrese el curso",

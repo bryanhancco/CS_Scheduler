@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 import 'package:scheduler/utilities/turnos_tile.dart';
 
@@ -12,22 +12,24 @@ class DetallesCursoPage extends StatefulWidget {
 }
 
 class _DetallesCursoPageState extends State<DetallesCursoPage> {
-  final _controller = TextEditingController();
+  final _controllerCourseCod = TextEditingController();  
+  final _controllerCourseName = TextEditingController();
   final _categoria = TextEditingController();
-  bool categoria = true;
-
+  int categoria = 1;
+  /*
   List coursesList = Curso.ejemplos;
 
   void saveNewCourse() {
     setState(() {
       // print('categoria ' + _categoria.text);
-      categoria = (_categoria.text == 'Obligatorio') ? true : false;
-      Curso curso = Curso.empty(_controller.text, categoria);
+      categoria = (_categoria.text == 'Obligatorio') ? 1 : 0;
+      Curso curso = Curso.empty(_controllerCourseCod.text, _controllerCourseName.text, categoria);
       /*print('se creo ruso ' +
           curso.nombre.toString() +
           curso.obligatorio.toString());*/
       coursesList.add(curso);
-      _controller.clear();
+      _controllerCourseCod.clear();
+      _controllerCourseName.clear();
     });
     Navigator.of(context).pop();
   }
@@ -45,15 +47,17 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
       },
     );
   }
-
+  */
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Placeholder();
+    /*
+    Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
         title: Text(
-          widget.curso.nombre.toString(),
+          widget.curso.cu.toString(),
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -95,6 +99,6 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
       /*body: Container(
           child: SfCalendar(),
         )*/
-    );
+    );*/
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 
@@ -11,22 +11,21 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
-  final _controller = TextEditingController();
-  final _categoria = TextEditingController();
-  bool categoria = true;
+  final _controllerCourseShortName = TextEditingController();
+  final _controllerCourseName = TextEditingController();
+  final _controllerCategoria = TextEditingController();
+  int categoria = 1;
 
   List coursesList = Curso.ejemplos;
 
   void saveNewCourse() {
     setState(() {
       // print('categoria ' + _categoria.text);
-      categoria = (_categoria.text == 'Obligatorio') ? true : false;
-      Curso curso = Curso.empty(_controller.text, categoria);
-      /*print('se creo ruso ' +
-          curso.nombre.toString() +
-          curso.obligatorio.toString());*/
+      categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
+      Curso curso = Curso.empty(_controllerCourseShortName.text, _controllerCourseName.text, categoria);
       coursesList.add(curso);
-      _controller.clear();
+      _controllerCourseShortName.clear();
+      _controllerCourseName.clear();
     });
     Navigator.of(context).pop();
   }
@@ -36,10 +35,11 @@ class _CoursesState extends State<Courses> {
       context: context,
       builder: (context) {
         return CreateDialogBox(
-          controller: _controller,
+          controllerCourseShortName: _controllerCourseShortName,
+          controllerCourseName: _controllerCourseName,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
-          categoria: _categoria,
+          categoria: _controllerCategoria,
         );
       },
     );

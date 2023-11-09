@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -49,7 +49,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           for (int index = 0; index < items.length; index++)
             ListTile(
-              title: Text(items[index].nombre),
+              title: Text(items[index].CurNom),
               leading: Checkbox(
                 value: isChecked[index],
                 onChanged: (value) {

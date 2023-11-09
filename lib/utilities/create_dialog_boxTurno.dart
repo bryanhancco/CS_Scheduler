@@ -1,5 +1,6 @@
+/*
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 
 class CreateDialogBoxTurno extends StatefulWidget {
   final VoidCallback onSave;
@@ -162,3 +163,4 @@ class _CreateDialogBoxTurnoState extends State<CreateDialogBoxTurno> {
     );
   }
 }
+*/

@@ -1,5 +1,6 @@
+/*
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/pages/detallesCursoPage.dart';
 import 'package:scheduler/utilities/create_dialog_box.dart';
 import 'package:scheduler/utilities/create_dialog_boxTurno.dart';
@@ -62,3 +63,4 @@ class TurnosTile extends StatelessWidget {
     );
   }
 }
+*/
