@@ -1,0 +1,12 @@
+[33m1e7eb57[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m add pages of details (turnos)
+[33mf29ca9c[m add booleano de selectivo/obligatorio
+[33m7007749[m add category dialog
+[33m87150f8[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m add functionality to the 'add' button, cour only with a name and true category
+[33mffacac8[m Merge pull request #2 from bryanhancco/anthonyAco
+[33m27b1725[m[33m ([m[1;31morigin/anthonyAco[m[33m)[m Agregando logo intento
+[33mdd903a6[m Agregando foto, clase Curso y algunas modifiicaciones
+[33m1878d6d[m Agregando assets y modificando el sistema de rutas
+[33mf3b0293[m Merge pull request #1 from bryanhancco/anthonyAco
+[33m7c9e87d[m Agregando los checkbox y arreglo el drawerheader
+[33m1b151aa[m Modificando homa, agregando tabla horario y scroll
+[33m29efa3b[m Avance en las dos primeras pantallas

@@ -5,7 +5,7 @@ import 'package:scheduler/utilities/turnos_tile.dart';
 
 class DetallesCursoPage extends StatefulWidget {
   final Curso curso;
-  const DetallesCursoPage({Key? key, required this.curso});
+  const DetallesCursoPage({super.key, required this.curso});
 
   @override
   State<DetallesCursoPage> createState() => _DetallesCursoPageState();
@@ -86,11 +86,10 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
             return const Center(
               child: Text('Aun no tiene turnos este curso'),
             );
-          } else {
-            return TurnosTile(
-              turno: widget.curso.turnos[index],
-            );
           }
+          return TurnosTile(
+            turno: widget.curso.turnos[index],
+          );
         },
       ),
       /*body: Container(

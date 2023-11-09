@@ -26,6 +26,7 @@ class TurnosTile extends StatelessWidget {
             return CreateDialogBoxTurno(
               onSave: saveDataTurno,
               onCancel: () => Navigator.of(context).pop(),
+              turno: turno,
             );
           },
         );
