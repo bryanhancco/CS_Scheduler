@@ -8,14 +8,13 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
+      child: Column(
         children: [
           Container(
-            height: 100, // Ajusta la altura del DrawerHeader
+            height: 120, // Ajusta la altura del DrawerHeader
             decoration: const BoxDecoration(
               color: Colors.blue, // Color de fondo personalizado
             ),
@@ -47,43 +46,51 @@ class _MyDrawerState extends State<MyDrawer> {
             title: Text("Compartir/Exportar"),
           ),
           // = List.generate(Curso.ejemplos.length, (index) => true);
-          Container(
+          Expanded(
             child: FutureBuilder(
-              future: SchedulerDatabase.instance.getAllCursos(), 
-              builder: (BuildContext context, AsyncSnapshot<List<Curso>> snapshot) {
-                if (snapshot.hasData) {
-                List<Curso> items = snapshot.data!;
-                List<bool> isChecked = List.generate(Curso.ejemplos.length, (index) => true);;
-                return items.isEmpty 
-                  ? Center(child: Text("No hay Cursos!", style: TextStyle(fontSize: 20),)) 
-                  : ListView.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text(items[index].CurNom),
-                        leading: Checkbox(
-                          value: isChecked[index],
-                          onChanged: (value) {
-                            setState(() {
-                              isChecked[index] = value ?? false;
-                            });
-                          },
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) => Divider(
-                      height: 5,
-                    ),
-                    itemCount: items.length,
-                  );
-                }
-                else {
-                  return const Center(
-                    child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
-                  );
-                }
-              }
-            ),
-          ) 
+                future: SchedulerDatabase.instance.getAllCursos(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Curso>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Curso> items = snapshot.data!;
+                    List<bool> isChecked =
+                        List.generate(items.length, (index) => true);
+                    return items.isEmpty
+                        ? Center(
+                            child: Text(
+                            "No hay Cursos!",
+                            style: TextStyle(fontSize: 20),
+                          ))
+                        : ListView.separated(
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text(items[index].CurNom),
+                                leading: Checkbox(
+                                  value: isChecked[index],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isChecked[index] = value ?? false;
+                                    });
+                                  },
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) => Divider(
+                              height: 1,
+                            ),
+                            itemCount: items.length,
+                          );
+                  } else {
+                    return const Center(
+                      child: Text(
+                        "No se han ingresado cursos!",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    );
+                  }
+                }),
+          ),
         ],
       ),
     );

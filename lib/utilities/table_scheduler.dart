@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class HorarioTable extends StatelessWidget {
   final List<String> diasSemana = [
@@ -64,7 +65,8 @@ class HorarioTable extends StatelessWidget {
                       ),
                     ),
                   ),
-                  for (var dia in diasSemana)
+                  for (var dia
+                      in diasSemana) /*
                     const TableCell(
                       child: Center(
                         child: Padding(
@@ -73,11 +75,40 @@ class HorarioTable extends StatelessWidget {
                           child: Text('Clase\nMateria LArga xdxdxd'),
                         ),
                       ),
-                    ),
+                    ),*/
+                    const ElementTile(currentNumber: 1, txt: 'a'),
                 ],
               ),
           ],
         ),
+      ),
+    );
+  }
+/*
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      itemBuilder: (context, index) => Text('a'),
+      gridDelegate:
+          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+      itemCount: 10,
+    );
+  }*/
+}
+
+class ElementTile extends StatelessWidget {
+  final int currentNumber;
+  final String txt;
+  const ElementTile({Key? key, required this.currentNumber, required this.txt})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      color: Colors.primaries[currentNumber % Colors.primaries.length],
+      child: FittedBox(
+        child: Text(txt),
       ),
     );
   }
