@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -7,8 +8,6 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  List<Curso> items = Curso.ejemplos;
-  List<bool> isChecked = List.generate(Curso.ejemplos.length, (index) => true);
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +46,44 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: Icon(Icons.share),
             title: Text("Compartir/Exportar"),
           ),
-          for (int index = 0; index < items.length; index++)
-            ListTile(
-              title: Text(items[index].nombre),
-              leading: Checkbox(
-                value: isChecked[index],
-                onChanged: (value) {
-                  setState(() {
-                    isChecked[index] = value ?? false;
-                  });
-                },
-              ),
+          // = List.generate(Curso.ejemplos.length, (index) => true);
+          Container(
+            child: FutureBuilder(
+              future: SchedulerDatabase.instance.getAllCursos(), 
+              builder: (BuildContext context, AsyncSnapshot<List<Curso>> snapshot) {
+                if (snapshot.hasData) {
+                List<Curso> items = snapshot.data!;
+                List<bool> isChecked = List.generate(Curso.ejemplos.length, (index) => true);;
+                return items.isEmpty 
+                  ? Center(child: Text("No hay Cursos!", style: TextStyle(fontSize: 20),)) 
+                  : ListView.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(items[index].CurNom),
+                        leading: Checkbox(
+                          value: isChecked[index],
+                          onChanged: (value) {
+                            setState(() {
+                              isChecked[index] = value ?? false;
+                            });
+                          },
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) => Divider(
+                      height: 5,
+                    ),
+                    itemCount: items.length,
+                  );
+                }
+                else {
+                  return const Center(
+                    child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
+                  );
+                }
+              }
             ),
+          ) 
         ],
       ),
     );

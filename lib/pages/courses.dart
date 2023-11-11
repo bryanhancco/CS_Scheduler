@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scheduler/classes/curso.dart';
+import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
-import 'package:scheduler/utilities/create_dialog_box.dart';
+import 'package:scheduler/utilities/create_course_dialog_box.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -11,22 +12,22 @@ class Courses extends StatefulWidget {
 }
 
 class _CoursesState extends State<Courses> {
-  final _controller = TextEditingController();
-  final _categoria = TextEditingController();
-  bool categoria = true;
+  final _controllerCourseShortName = TextEditingController();
+  final _controllerCourseName = TextEditingController();
+  final _controllerCategoria = TextEditingController();
+  int categoria = 1;
 
-  List coursesList = Curso.ejemplos;
-
-  void saveNewCourse() {
+  Future<void> addCourse(Curso course) async {
+    await SchedulerDatabase.instance.insertCourse(course);
+  }
+  saveNewCourse() {
     setState(() {
       // print('categoria ' + _categoria.text);
-      categoria = (_categoria.text == 'Obligatorio') ? true : false;
-      Curso curso = Curso.empty(_controller.text, categoria);
-      /*print('se creo ruso ' +
-          curso.nombre.toString() +
-          curso.obligatorio.toString());*/
-      coursesList.add(curso);
-      _controller.clear();
+      categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
+      Curso curso = Curso.empty(_controllerCourseShortName.text, _controllerCourseName.text, categoria);
+      addCourse(curso);
+      _controllerCourseShortName.clear();
+      _controllerCourseName.clear();
     });
     Navigator.of(context).pop();
   }
@@ -35,11 +36,12 @@ class _CoursesState extends State<Courses> {
     showDialog(
       context: context,
       builder: (context) {
-        return CreateDialogBox(
-          controller: _controller,
+        return CreateCourseDialogBox (
+          controllerCourseShortName: _controllerCourseShortName,
+          controllerCourseName: _controllerCourseName,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
-          categoria: _categoria,
+          categoria: _controllerCategoria,
         );
       },
     );
@@ -59,15 +61,6 @@ class _CoursesState extends State<Courses> {
             fontSize: 27,
           ),
         ),
-
-        /*leading: ElevatedButton(
-            child: Icon(Icons.arrow_circle_left_outlined, color: Colors.black,),
-            onPressed: () {
-              Navigator.pushNamed(context, '/home');
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-          ), */
-
         actions: [
           IconButton(
               onPressed: createNewCourse,
@@ -77,17 +70,30 @@ class _CoursesState extends State<Courses> {
               ))
         ],
       ),
-      body: ListView.builder(
-        itemCount: coursesList.length,
-        itemBuilder: (context, index) {
-          return CoursesTile(
-            curso: coursesList[index],
-          );
-        },
-      ),
-      /*body: Container(
-          child: SfCalendar(),
-        )*/
+      body: FutureBuilder(
+        future: SchedulerDatabase.instance.getAllCursos(), 
+        builder: (BuildContext context, AsyncSnapshot<List<Curso>> snapshot) {
+          if (snapshot.hasData) {
+          List<Curso> courses = snapshot.data!;
+          return courses.isEmpty 
+            ? Center(child: Text("No hay Cursos!", style: TextStyle(fontSize: 20),)) 
+            : ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return CoursesTile(curso: courses[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 5,
+              ),
+              itemCount: courses.length,
+            );
+          }
+          else {
+            return const Center(
+              child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
+            );
+          }
+        }
+      ) 
     );
   }
 }
