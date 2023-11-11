@@ -9,7 +9,7 @@ class CreateCourseDialogBox extends StatefulWidget {
 
   const CreateCourseDialogBox(
       {Key? key,
-      required this.controllerCourseShortName,      
+      required this.controllerCourseShortName,
       required this.controllerCourseName,
       required this.onSave,
       required this.onCancel,
@@ -30,13 +30,16 @@ class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       content: Container(
-        height: 350,
+        height: 450,
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Creando Curso...", style: TextStyle(fontWeight: FontWeight.bold),),
+                const Text(
+                  "Creando Curso...",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 IconButton(
                     onPressed: widget.onCancel, icon: const Icon(Icons.cancel)),
               ],
