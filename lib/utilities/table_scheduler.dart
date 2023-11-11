@@ -30,59 +30,57 @@ class HorarioTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: 20.0), // Ajusta el margen izquierdo según tus necesidades
-      child: Align(
-        alignment: Alignment.center,
-        child: Table(
-          columnWidths: {
-            0: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para la primera columna
-            for (int i = 1; i <= diasSemana.length; i++)
-              i: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para las demás columnas
-          },
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          border: TableBorder.all(),
-          children: [
-            TableRow(children: [
-              for (var dia in ['Día', ...diasSemana])
-                TableCell(
-                    child: Center(
-                        child: Padding(
-                            padding: const EdgeInsets.all(
-                                8.0), // Añade un margen entre las celdas
-                            child: Text(dia)))),
-            ]),
-            for (var bloqueHorario in bloquesHorarios)
-              TableRow(
-                children: [
-                  TableCell(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                            8.0), // Añade un margen entre las celdas
-                        child: Text(bloqueHorario),
-                      ),
-                    ),
-                  ),
-                  for (var dia
-                      in diasSemana) /*
-                    const TableCell(
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(
-                              8.0), // Añade un margen entre las celdas
-                          child: Text('Clase\nMateria LArga xdxdxd'),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 10.0, top: 10.0),
+        child: Align(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Table(
+                    columnWidths: {
+                      0: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para la primera columna
+                      for (int i = 1; i <= diasSemana.length; i++)
+                        i: const IntrinsicColumnWidth(), // Ancho ajustado al contenido para las demás columnas
+                    },
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    border: TableBorder.all(),
+                    children: [
+                      TableRow(children: [
+                        for (var dia in ['Día', ...diasSemana])
+                          TextCell(txt: dia),
+                      ]),
+                      for (var bloqueHorario in bloquesHorarios)
+                        TableRow(
+                          children: [
+                            TextCell(txt: bloqueHorario),
+                            for (var dia in diasSemana)
+                              TextCell(
+                                  txt: 'Materia Super Larga\nCon un nombre')
+                            //const ElementTile(currentNumber: 1, txt: 'a'),
+                          ],
                         ),
-                      ),
-                    ),*/
-                    const ElementTile(currentNumber: 1, txt: 'a'),
-                ],
-              ),
-          ],
+                    ],
+                  ))),
         ),
       ),
     );
+  }
+
+  Widget build2() {
+    return SafeArea(
+        child: Column(
+      children: [
+        ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) =>
+              ElementTile(currentNumber: 4, txt: diasSemana[index]),
+          itemCount: 5,
+        )
+      ],
+    ));
   }
 /*
   @override
@@ -96,6 +94,24 @@ class HorarioTable extends StatelessWidget {
   }*/
 }
 
+class TextCell extends StatelessWidget {
+  final String txt;
+  const TextCell({Key? key, required this.txt}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TableCell(
+      child: Center(
+        child: Padding(
+          padding:
+              const EdgeInsets.all(8.0), // Añade un margen entre las celdas
+          child: Text(txt),
+        ),
+      ),
+    );
+  }
+}
+
 class ElementTile extends StatelessWidget {
   final int currentNumber;
   final String txt;
@@ -105,7 +121,7 @@ class ElementTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 20,
       color: Colors.primaries[currentNumber % Colors.primaries.length],
       child: FittedBox(
         child: Text(txt),
