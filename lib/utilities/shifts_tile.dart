@@ -15,7 +15,7 @@ class ShiftsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<void> getHoras(String turCod) async {
-      horas = await SchedulerDatabase.instance.getAllHoras(turCod);
+      horas = await SchedulerDatabase.instance.getCourseHors(turCod);
       print('Saliendo a get AllHoras ' + horas.toString());
     }
 

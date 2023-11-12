@@ -104,10 +104,26 @@ class SchedulerDatabase {
     items.clear();
   }
 
-  Future<List<TurnoHorario>> getAllHoras(String turCod) async {
+  Future<List<TurnoHorario>> getCourseHors(String turCod) async {
     final db = await instance.database;
     final List<Map<String, dynamic>> maps = await db
         .query(tableShiftPerHour, where: 'TurCod=?', whereArgs: [turCod]);
+    /*if (maps.isNotEmpty) {
+      print('Datos recuperados exitosamente. Número de filas: ${maps.length}');
+    } else {
+      print('No se encontraron datos para TurCod=$turCod');
+    }*/
+    return List.generate(maps.length, (index) {
+      return TurnoHorario(
+        TurCod: maps[index]['TurCod'],
+        HorInd: maps[index]['HorInd'],
+      );
+    });
+  }
+
+  Future<List<TurnoHorario>> getAllHors() async {
+    final db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(tableShiftPerHour);
     /*if (maps.isNotEmpty) {
       print('Datos recuperados exitosamente. Número de filas: ${maps.length}');
     } else {

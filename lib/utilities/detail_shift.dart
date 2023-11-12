@@ -5,7 +5,7 @@ class DetailShiftDialogBox extends StatefulWidget {
   final Turno turno;
   final List<TurnoHorario> turnohoras;
   List<int> horas;
-  //final List<TurnoHorario> horas= await getAllHoras;
+  //final List<TurnoHorario> horas= await getCourseHors;
 
   DetailShiftDialogBox(
       {Key? key, required this.turno, required this.turnohoras})

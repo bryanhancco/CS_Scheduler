@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TableInput extends StatelessWidget {
   List<int> horasSelec;
-  var i = 1;
+  int nro = 1;
 
   TableInput({
     Key? key,
@@ -64,7 +64,7 @@ class TableInput extends StatelessWidget {
                           children: [
                             TextCell(txt: bloqueHorario),
                             for (var dia in diasSemana)
-                              ColorCell(horas: horasSelec, h: i++),
+                              ColorCell(horas: horasSelec, h: nro++),
                             //const ElementTile(currentNumber: 1, txt: 'a'),
                           ],
                         ),
