@@ -14,7 +14,7 @@ class _MyDrawerState extends State<MyDrawer> {
       child: Column(
         children: [
           Container(
-            height: 120, // Ajusta la altura del DrawerHeader
+            height: 140, // Ajusta la altura del DrawerHeader
             decoration: const BoxDecoration(
               color: Colors.blue, // Color de fondo personalizado
             ),
