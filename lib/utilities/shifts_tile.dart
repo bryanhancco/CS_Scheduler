@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/detail_shift.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class ShiftsTile extends StatelessWidget {
   final Turno turno;
+  List<TurnoHorario> horas = [];
 
-  const ShiftsTile({
+  ShiftsTile({
     super.key,
     required this.turno,
   });
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    void showInfo() {
+    Future<void> getHoras(String turCod) async {
+      horas = await SchedulerDatabase.instance.getAllHoras(turCod);
+      print('Saliendo a get AllHoras ' + horas.toString());
+    }
+
+    void showInfo() async {
+      await getHoras(turno.TurCod);
       showDialog(
         context: context,
         builder: (context) {
-          return DetailShiftDialogBox(turno: turno);
+          return DetailShiftDialogBox(turno: turno, turnohoras: horas);
         },
       );
     }

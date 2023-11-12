@@ -6,6 +6,8 @@ class SchedulerDatabase {
   static final SchedulerDatabase instance = SchedulerDatabase._init();
   final String tableCourse = "curso";
   final String tableShift = "turno";
+  final String tableHour = 'hora';
+  final String tableShiftPerHour = 'turno_hora';
   static Database? _database;
 
   SchedulerDatabase._init();
@@ -34,10 +36,16 @@ class SchedulerDatabase {
       CREATE TABLE $tableShift(
         TurCod TEXT PRIMARY KEY,
         TurCurCod TEXT,
-        TurHrs TEXT,
         TurLet TEXT,
         TurDoc TEXT,
         FOREIGN KEY(TurCurCod) REFERENCES $tableCourse(CurCod)
+      )''');
+    await db.execute('''
+      CREATE TABLE $tableShiftPerHour(
+        TurHorCod TEXT PRIMARY KEY,
+        TurCod TEXT,
+        HorInd INTEGER,
+        FOREIGN KEY(TurCod) REFERENCES $tableShift(TurCod)
       )''');
   }
 
@@ -73,10 +81,65 @@ class SchedulerDatabase {
       return Turno(
         TurCod: maps[index]['TurCod'],
         TurCurCod: maps[index]['TurCurCod'],
-        TurHrs: maps[index]['TurHrs'],
         TurLet: maps[index]['TurLet'],
         TurDoc: maps[index]['TurDoc'],
       );
+    });
+  }
+
+  Future<void> insertShiftsHours(String turcod, List<int> items) async {
+    await deleteShiftsHours(turcod, items);
+    final db = await instance.database;
+    await Future.forEach(items, (item) async {
+      //print(turcod + ' Entrnado a insertShifthours ' + item.toString());
+      final result = await db.insert(
+          tableShiftPerHour, TurnoHorario(TurCod: turcod, HorInd: item).toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      /*if (result != null && result > 0) {
+        print('Inserción exitosa. ID de la fila: $result');
+      } else {
+        print('Error al insertar el elemento: $item');
+      }*/
+    });
+    items.clear();
+  }
+
+  Future<List<TurnoHorario>> getAllHoras(String turCod) async {
+    final db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db
+        .query(tableShiftPerHour, where: 'TurCod=?', whereArgs: [turCod]);
+    /*if (maps.isNotEmpty) {
+      print('Datos recuperados exitosamente. Número de filas: ${maps.length}');
+    } else {
+      print('No se encontraron datos para TurCod=$turCod');
+    }*/
+    return List.generate(maps.length, (index) {
+      return TurnoHorario(
+        TurCod: maps[index]['TurCod'],
+        HorInd: maps[index]['HorInd'],
+      );
+    });
+  }
+
+  Future<void> deleteShiftsHours(String turcod, List<int> items) async {
+    final db = await instance.database;
+
+    await Future.forEach(items, (item) async {
+      //print(turcod + ' Entrando a deleteShiftsHours ' + item.toString());
+
+      // Eliminar el elemento correspondiente
+      final rowsDeleted = await db.delete(
+        tableShiftPerHour,
+        where: 'TurCod = ?',
+        whereArgs: [turcod],
+      );
+
+      // Verificar si se eliminó la fila
+      /*if (rowsDeleted > 0) {
+        print('Eliminación exitosa. Filas eliminadas: $rowsDeleted');
+      } else {
+        print('Error al eliminar el elemento: $item');
+      }*/
     });
   }
 }

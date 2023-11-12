@@ -13,24 +13,31 @@ class DetallesCursoPage extends StatefulWidget {
 }
 
 class _DetallesCursoPageState extends State<DetallesCursoPage> {
-  List<int> _horas = [2, 4];
+  List<int> horas = [];
   final _controllerTurnoLetra = TextEditingController();
   final _controllerTurnoDocente = TextEditingController();
 
   Future<void> addShift(Turno shift) async {
+    //print('A addshift ');
     await SchedulerDatabase.instance.insertShift(shift);
+  }
+
+  Future<void> addShiftsHours(String turCod, List<int> items) async {
+    //print('a Addhshifhours');
+    await SchedulerDatabase.instance
+        .insertShiftsHours(widget.curCod + _controllerTurnoLetra.text, items);
   }
 
   void saveNewShift() {
     setState(() {
-      // print('categoria ' + _categoria.text);
       Turno shift = Turno.empty(
           widget.curCod + _controllerTurnoLetra.text,
           widget.curCod,
-          _horas.join(','),
           _controllerTurnoLetra.text,
           _controllerTurnoDocente.text);
+
       addShift(shift);
+      addShiftsHours(widget.curCod + _controllerTurnoLetra.text, horas);
       _controllerTurnoLetra.clear();
       _controllerTurnoDocente.clear();
     });
@@ -42,6 +49,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
       context: context,
       builder: (context) {
         return CreateTurnoDialogBox(
+          horasSelec: horas,
           controllerTurnoLetra: _controllerTurnoLetra,
           controllerTurnoDocente: _controllerTurnoDocente,
           onSave: saveNewShift,

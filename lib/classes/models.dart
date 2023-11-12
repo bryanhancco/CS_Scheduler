@@ -30,21 +30,18 @@ class Curso {
 class Turno {
   final String TurCod;
   final String TurCurCod;
-  final String TurHrs;
   final String TurLet; //Letra
   final String TurDoc; //Docente
 
   Turno(
       {required this.TurCod,
       required this.TurCurCod,
-      required this.TurHrs,
       required this.TurLet,
       required this.TurDoc});
 
   Turno.empty(
       this.TurCod,
       this.TurCurCod,
-      this.TurHrs,
       this.TurLet, //Letra
       this.TurDoc);
 
@@ -59,7 +56,6 @@ class Turno {
     return {
       'TurCod': TurCod,
       'TurCurCod': TurCurCod,
-      'TurHrs': TurHrs,
       'TurLet': TurLet,
       'TurDoc': TurDoc
     };
@@ -78,10 +74,18 @@ class Horario {
 
 class TurnoHorario {
   final String TurCod;
-  final String HorCod;
-  TurnoHorario(this.TurCod, this.HorCod);
+  final int HorInd;
+  TurnoHorario({required this.TurCod, required this.HorInd});
 
-  static List<TurnoHorario> ejemplosTurno = [
-    TurnoHorario('MN_A', 'H_1'),
-  ];
+  Map<String, dynamic> toMap() {
+    return {
+      'TurHorCod': TurCod + HorInd.toString(),
+      'TurCod': TurCod,
+      'HorInd': HorInd,
+    };
+  }
+
+  /*static List<TurnoHorario> ejemplosTurno = [
+    TurnoHorario('MN_A', 1),
+  ];*/
 }

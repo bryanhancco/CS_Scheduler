@@ -3,8 +3,14 @@ import 'package:scheduler/classes/models.dart';
 
 class DetailShiftDialogBox extends StatefulWidget {
   final Turno turno;
+  final List<TurnoHorario> turnohoras;
+  List<int> horas;
+  //final List<TurnoHorario> horas= await getAllHoras;
 
-  const DetailShiftDialogBox({Key? key, required this.turno}) : super(key: key);
+  DetailShiftDialogBox(
+      {Key? key, required this.turno, required this.turnohoras})
+      : horas = turnohoras.map((turno) => turno.HorInd).toList(),
+        super(key: key);
   @override
   _DetailShiftDialogBoxState createState() => _DetailShiftDialogBoxState();
 }
@@ -36,7 +42,7 @@ class _DetailShiftDialogBoxState extends State<DetailShiftDialogBox> {
               Text(widget.turno.TurDoc),
             ]),
             Text(
-              widget.turno.TurHrs,
+              widget.horas.toString(),
               style: const TextStyle(
                 fontSize: 27,
               ),

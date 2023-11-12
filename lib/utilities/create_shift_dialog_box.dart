@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 import 'package:scheduler/utilities/table_input.dart';
 
 class CreateTurnoDialogBox extends StatefulWidget {
@@ -11,13 +13,13 @@ class CreateTurnoDialogBox extends StatefulWidget {
 
   CreateTurnoDialogBox({
     Key? key,
+    required this.horasSelec,
     required this.controllerTurnoLetra,
     required this.controllerTurnoDocente,
     required this.onSave,
     required this.onCancel,
     required this.curCod,
-  })  : horasSelec = [],
-        super(key: key);
+  }) : super(key: key);
   @override
   _CreateTurnoDialogBoxState createState() => _CreateTurnoDialogBoxState();
 }
@@ -159,17 +161,17 @@ class _CreateTurnoDialogBoxState extends State<CreateTurnoDialogBox> {
             MaterialButton(
               onPressed: () {
                 // Realizar la validación
-                if (turnocontrol.text == '') {
+                if (widget.controllerTurnoLetra.text == '') {
                   // Ambos campos están llenos, muestra el mensaje de éxito
                   //mostrarSnackBar(context, 'Seleccione un turno');
                   mostrarMensaje(context, 'CAMPO VACIO', 'Seleccione un turno');
                 } else {
                   // Muestra un mensaje de error si la validación falla
                   mostrarSnackBar(context, widget.horasSelec.toString());
-                  widget.onSave;
+                  widget.onSave();
                 }
               },
-              //widget.onSave,
+              //onPressed: widget.onCancel,
               color: const Color.fromRGBO(0, 137, 236, 1),
               child: const Text("Agregar"),
             ),
