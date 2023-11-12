@@ -10,13 +10,13 @@ class DetallesCursoPage extends StatefulWidget {
 
   @override
   State<DetallesCursoPage> createState() => _DetallesCursoPageState();
-
 }
 
 class _DetallesCursoPageState extends State<DetallesCursoPage> {
-  final _controllerTurnoLetra = TextEditingController();  
+  List<int> _horas = [2, 4];
+  final _controllerTurnoLetra = TextEditingController();
   final _controllerTurnoDocente = TextEditingController();
-  
+
   Future<void> addShift(Turno shift) async {
     await SchedulerDatabase.instance.insertShift(shift);
   }
@@ -24,7 +24,12 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
   void saveNewShift() {
     setState(() {
       // print('categoria ' + _categoria.text);
-      Turno shift = Turno.empty(widget.curCod + _controllerTurnoLetra.text, widget.curCod, _controllerTurnoLetra.text, _controllerTurnoDocente.text);
+      Turno shift = Turno.empty(
+          widget.curCod + _controllerTurnoLetra.text,
+          widget.curCod,
+          _horas.join(','),
+          _controllerTurnoLetra.text,
+          _controllerTurnoDocente.text);
       addShift(shift);
       _controllerTurnoLetra.clear();
       _controllerTurnoDocente.clear();
@@ -43,59 +48,63 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
           onCancel: () => Navigator.of(context).pop(),
           curCod: widget.curCod,
         );
-        
       },
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
-        title: Text(
-          "Turnos",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 27,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
+          title: Text(
+            "Turnos",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+            ),
           ),
+          actions: [
+            IconButton(
+                onPressed: createNewShift,
+                icon: const Icon(
+                  Icons.add_circle,
+                  color: Colors.black,
+                ))
+          ],
         ),
-
-        actions: [
-          IconButton(
-              onPressed: createNewShift,
-              icon: const Icon(
-                Icons.add_circle,
-                color: Colors.black,
-              ))
-        ],
-      ),
-      body: FutureBuilder(
-        future: SchedulerDatabase.instance.getAllTurnos(widget.curCod), 
-        builder: (BuildContext context, AsyncSnapshot<List<Turno>> snapshot) {
-          if (snapshot.hasData) {
-          List<Turno> turnos = snapshot.data!;
-          return turnos.isEmpty 
-            ? Center(child: Text("No hay Turnos!", style: TextStyle(fontSize: 20),)) 
-            : ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return ShiftsTile(turno: turnos[index]);
-              },
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 5,
-              ),
-              itemCount: turnos.length,
-            );
-          }
-          else {
-            return const Center(
-              child: Text("No se han ingresado turnos!", style: TextStyle(fontSize: 20),),
-            );
-          }
-        }
-      )
-    );
+        body: FutureBuilder(
+            future: SchedulerDatabase.instance.getAllTurnos(widget.curCod),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Turno>> snapshot) {
+              if (snapshot.hasData) {
+                List<Turno> turnos = snapshot.data!;
+                return turnos.isEmpty
+                    ? Center(
+                        child: Text(
+                        "No hay Turnos!",
+                        style: TextStyle(fontSize: 20),
+                      ))
+                    : ListView.separated(
+                        itemBuilder: (BuildContext context, int index) {
+                          return ShiftsTile(turno: turnos[index]);
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(
+                          height: 5,
+                        ),
+                        itemCount: turnos.length,
+                      );
+              } else {
+                return const Center(
+                  child: Text(
+                    "No se han ingresado turnos!",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                );
+              }
+            }));
   }
 }

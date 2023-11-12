@@ -3,20 +3,20 @@ class Curso {
   final String CurNom;
   final int isObligatorio;
 
-  Curso({required this.CurCod,required  this.CurNom,required  this.isObligatorio});
-  
+  Curso(
+      {required this.CurCod,
+      required this.CurNom,
+      required this.isObligatorio});
+
   static List<Curso> ejemplos = [
     Curso(
-        CurCod: 'MN',
-        CurNom: 'Metodos Numéricos',
-        isObligatorio: 1,),
+      CurCod: 'MN',
+      CurNom: 'Metodos Numéricos',
+      isObligatorio: 1,
+    ),
   ];
-  
-  Curso.empty(
-    this.CurCod,
-    this.CurNom,
-    this.isObligatorio
-  );
+
+  Curso.empty(this.CurCod, this.CurNom, this.isObligatorio);
 
   Map<String, dynamic> toMap() {
     return {
@@ -30,21 +30,27 @@ class Curso {
 class Turno {
   final String TurCod;
   final String TurCurCod;
-  final String TurLet;
-  final String TurDoc;
-  
-  Turno({required this.TurCod, required this.TurCurCod, required this.TurLet, required this.TurDoc});
-  
+  final String TurHrs;
+  final String TurLet; //Letra
+  final String TurDoc; //Docente
+
+  Turno(
+      {required this.TurCod,
+      required this.TurCurCod,
+      required this.TurHrs,
+      required this.TurLet,
+      required this.TurDoc});
+
   Turno.empty(
-    this.TurCod,
-    this.TurCurCod,
-    this.TurLet,
-    this.TurDoc,
-  );
+      this.TurCod,
+      this.TurCurCod,
+      this.TurHrs,
+      this.TurLet, //Letra
+      this.TurDoc);
 
   /*
   static List<Turno> ejeTur = [
-    Turno('MN_A',1703244, 'A', 'Olha'),
+    Turno('MN_A','1703244', 'A', 'Olha'),
     Turno('MN_B', 1703244, 'B', 'Norka'),
     Turno('MN_C', 1703244, 'C', 'Olha'),
   ];
@@ -53,6 +59,7 @@ class Turno {
     return {
       'TurCod': TurCod,
       'TurCurCod': TurCurCod,
+      'TurHrs': TurHrs,
       'TurLet': TurLet,
       'TurDoc': TurDoc
     };
@@ -73,9 +80,8 @@ class TurnoHorario {
   final String TurCod;
   final String HorCod;
   TurnoHorario(this.TurCod, this.HorCod);
-  
+
   static List<TurnoHorario> ejemplosTurno = [
     TurnoHorario('MN_A', 'H_1'),
   ];
 }
-
