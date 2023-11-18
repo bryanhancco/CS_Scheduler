@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_course_dialog_box.dart';
 import 'package:scheduler/database/scheduler_database.dart';
@@ -18,13 +19,15 @@ class _CoursesState extends State<Courses> {
   int categoria = 1;
 
   Future<void> addCourse(Curso course) async {
-    await SchedulerDatabase.instance.insertCourse(course);
+    await createCourse(curso: course);
   }
+
   saveNewCourse() {
     setState(() {
       // print('categoria ' + _categoria.text);
       categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
-      Curso curso = Curso.empty(_controllerCourseShortName.text, _controllerCourseName.text, categoria);
+      Curso curso = Curso.empty(_controllerCourseShortName.text,
+          _controllerCourseName.text, categoria);
       addCourse(curso);
       _controllerCourseShortName.clear();
       _controllerCourseName.clear();
@@ -36,7 +39,7 @@ class _CoursesState extends State<Courses> {
     showDialog(
       context: context,
       builder: (context) {
-        return CreateCourseDialogBox (
+        return CreateCourseDialogBox(
           controllerCourseShortName: _controllerCourseShortName,
           controllerCourseName: _controllerCourseName,
           onSave: saveNewCourse,
@@ -49,51 +52,59 @@ class _CoursesState extends State<Courses> {
 
   @override
   Widget build(BuildContext context) {
+    List<Curso> cursos = <Curso>[];
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
-        title: const Text(
-          "Cursos",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 27,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
+          title: const Text(
+            "Cursos",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 27,
+            ),
           ),
+          actions: [
+            IconButton(
+                onPressed: createNewCourse,
+                icon: const Icon(
+                  Icons.add_circle,
+                  color: Colors.black,
+                ))
+          ],
         ),
-        actions: [
-          IconButton(
-              onPressed: createNewCourse,
-              icon: const Icon(
-                Icons.add_circle,
-                color: Colors.black,
-              ))
-        ],
-      ),
-      body: FutureBuilder(
-        future: SchedulerDatabase.instance.getAllCursos(), 
-        builder: (BuildContext context, AsyncSnapshot<List<Curso>> snapshot) {
-          if (snapshot.hasData) {
-          List<Curso> courses = snapshot.data!;
-          return courses.isEmpty 
-            ? Center(child: Text("No hay Cursos!", style: TextStyle(fontSize: 20),)) 
-            : ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return CoursesTile(curso: courses[index]);
-              },
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 5,
-              ),
-              itemCount: courses.length,
-            );
-          }
-          else {
-            return const Center(
-              child: Text("No se han ingresado cursos!", style: TextStyle(fontSize: 20),),
-            );
-          }
-        }
-      ) 
-    );
+        body: FutureBuilder(
+            future: readCourses(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                snapshot.data?.forEach((data) {
+                  cursos.add(Curso.fromJson(data));
+                });
+                return cursos.isEmpty
+                    ? Center(
+                        child: Text(
+                        "No hay Cursos!",
+                        style: TextStyle(fontSize: 20),
+                      ))
+                    : ListView.separated(
+                        itemBuilder: (BuildContext context, int index) {
+                          return CoursesTile(curso: cursos[index]);
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(
+                          height: 5,
+                        ),
+                        itemCount: cursos.length,
+                      );
+              } else {
+                return const Center(
+                  child: Text(
+                    "No se han ingresado cursos!",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                );
+              }
+            }));
   }
 }

@@ -1,4 +1,4 @@
-import 'package:sqflite/sqflite.dart';
+/*import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:scheduler/classes/models.dart';
 
@@ -62,7 +62,7 @@ class SchedulerDatabase {
       return Curso(
         CurCod: maps[index]['CurCod'],
         CurNom: maps[index]['CurNom'],
-        isObligatorio: maps[index]['CurReq'],
+        isRequired: maps[index]['CurReq'],
       );
     });
   }
@@ -159,3 +159,4 @@ class SchedulerDatabase {
     });
   }
 }
+*/

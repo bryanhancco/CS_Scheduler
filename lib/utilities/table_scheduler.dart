@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/scheduler_database.dart';
@@ -29,7 +29,7 @@ class HorarioTable extends StatelessWidget {
     "7:20  - 8:10",
     "8:10  - 9:00"
   ];
-  int nro = -79;
+  int nro = -79; //Por alguna razon entra doble vez
 
   Map<int, String> horario = {};
 
@@ -176,3 +176,4 @@ class ElementTile extends StatelessWidget {
     );
   }
 }
+*/

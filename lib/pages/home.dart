@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/pages/courses.dart';
+import 'package:scheduler/utilities/calendar.dart';
 import 'package:scheduler/utilities/table_scheduler.dart';
 import 'package:scheduler/utilities/drawer_courses.dart';
 //import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -55,7 +56,7 @@ class Home extends StatelessWidget {
           ),
         ),*/
       drawer: MyDrawer(),
-      body: HorarioTable(),
+      body: CalendarScreen(),
       /*body: Container(
           child: SfCalendar(
             view: CalendarView.week,

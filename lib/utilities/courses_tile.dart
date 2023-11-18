@@ -20,7 +20,7 @@ class CoursesTile extends StatelessWidget {
         // Por ejemplo, navegación a otra página:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
-            return DetallesCursoPage(curCod: curso.CurCod);
+            return DetallesCursoPage(curso: curso);
           },
         ));
       },

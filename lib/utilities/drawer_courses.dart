@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/database/scheduler_database.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -8,6 +9,7 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  List<Curso> items = <Curso>[];
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -48,11 +50,12 @@ class _MyDrawerState extends State<MyDrawer> {
           // = List.generate(Curso.ejemplos.length, (index) => true);
           Expanded(
             child: FutureBuilder(
-                future: SchedulerDatabase.instance.getAllCursos(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Curso>> snapshot) {
+                future: readCourses(),
+                builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    List<Curso> items = snapshot.data!;
+                    snapshot.data?.forEach((data) {
+                      items.add(Curso.fromJson(data));
+                    });
                     List<bool> isChecked =
                         List.generate(items.length, (index) => true);
                     return items.isEmpty

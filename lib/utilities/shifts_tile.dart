@@ -5,7 +5,6 @@ import 'package:scheduler/database/scheduler_database.dart';
 
 class ShiftsTile extends StatelessWidget {
   final Turno turno;
-  List<TurnoHorario> horas = [];
 
   ShiftsTile({
     super.key,
@@ -14,20 +13,16 @@ class ShiftsTile extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Future<void> getHoras(String turCod) async {
-      horas = await SchedulerDatabase.instance.getCourseHors(turCod);
-      print('Saliendo a get AllHoras ' + horas.toString());
-    }
-
-    void showInfo() async {
-      await getHoras(turno.TurCod);
+    void showInfo() {
       showDialog(
         context: context,
         builder: (context) {
-          return DetailShiftDialogBox(turno: turno, turnohoras: horas);
+          return DetailShiftDialogBox(turno: turno);
         },
       );
     }
+
+    List<int> horas = turno.horas;
 
     return GestureDetector(
       onTap: showInfo,
