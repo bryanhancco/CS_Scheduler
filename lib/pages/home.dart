@@ -25,7 +25,7 @@ class Home extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
+        ), /*
         actions: [
           ElevatedButton(
             onPressed: () {
@@ -41,7 +41,7 @@ class Home extends StatelessWidget {
             ),
           ),
           //IconButton(onPressed: () {},  icon: Icon(Icons.add_circle, color: Colors.black,))
-        ],
+        ],*/
       ),
       /*drawer: Drawer(
           child: Column(

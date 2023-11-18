@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
 
@@ -101,17 +103,21 @@ class CourseDataSource extends CalendarDataSource {
   ];
 
   List<int> diasInt = [20, 21, 22, 23, 24];
+  List<Color> colores = [];
 
   var today;
   CourseDataSource(
       List<Curso> source, List<int> indicesTurnos, List<bool> booleanos) {
     List<Hora> horas = [];
     for (int i = 0; i < source.length; i++) {
+      Color nuevo = generarColor(i);
       if (source[i].CurTur.isEmpty || !booleanos[i]) {
         continue;
       }
+
       source[i].CurTur[indicesTurnos[i]].horas.forEach((element) {
         horas.add(Hora(source[i].CurNom, element));
+        colores.add(nuevo);
       });
     }
     appointments = horas;
@@ -136,7 +142,7 @@ class CourseDataSource extends CalendarDataSource {
     int hourIni = horas[bloque];
     int minIni = minutos[bloque];
     final date = DateTime(today.year, today.month, day, hourIni, minIni, 0);
-    print("Hora inicio" + date.toString());
+    //print("Hora inicio" + date.toString());
     return date;
   }
 
@@ -148,7 +154,7 @@ class CourseDataSource extends CalendarDataSource {
     int hourIni = horas[bloque];
     int minIni = minutos[bloque];
     final date = DateTime(today.year, today.month, day, hourIni, minIni, 0);
-    print("Hora fin" + date.toString());
+    //print("Hora fin" + date.toString());
     return date;
   }
 
@@ -159,7 +165,17 @@ class CourseDataSource extends CalendarDataSource {
 
   @override
   Color getColor(int index) {
-    return const Color.fromARGB(255, 54, 109, 172);
+    return colores[index];
+  }
+
+  Color generarColor(int index) {
+    Random random = Random(
+        index); // Utiliza el índice para inicializar la semilla del generador aleatorio
+    int red = random.nextInt(128) + 60; // Rango: 128-255
+    int green = random.nextInt(128) + 60; // Rango: 128-255
+    int blue = random.nextInt(128) + 60; // Rango: 128-255
+
+    return Color.fromARGB(255, red, green, blue);
   }
 
   @override

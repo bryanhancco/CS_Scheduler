@@ -56,7 +56,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.arrow_forward),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {

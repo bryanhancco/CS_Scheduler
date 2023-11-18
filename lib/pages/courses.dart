@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
+import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_course_dialog_box.dart';
 import 'package:scheduler/database/scheduler_database.dart';
@@ -24,7 +26,6 @@ class _CoursesState extends State<Courses> {
 
   saveNewCourse() {
     setState(() {
-      print('categoria ' + _controllerCategoria.text);
       categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
       Curso curso = Curso.empty(_controllerCourseShortName.text,
           _controllerCourseName.text, categoria);
@@ -52,6 +53,7 @@ class _CoursesState extends State<Courses> {
 
   @override
   Widget build(BuildContext context) {
+    final boolProvider = Provider.of<BoolProvider>(context);
     List<Curso> cursos = <Curso>[];
     return Scaffold(
         backgroundColor: Colors.white,
@@ -77,6 +79,9 @@ class _CoursesState extends State<Courses> {
         body: FutureBuilder(
             future: readCourses(),
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                boolProvider.addItem();
+              }
               if (snapshot.hasData) {
                 cursos.clear();
                 snapshot.data?.forEach((data) {

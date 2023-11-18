@@ -12,13 +12,6 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   List<Curso> items = <Curso>[];
-  List<bool> isChecked = [true, true];
-
-  void updateCheckboxValue(int i, bool newValue) {
-    setState(() {
-      isChecked[i] = newValue;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +135,7 @@ class _ItemCursoState extends State<ItemCurso> {
       title: Text(widget.name),
       leading: Checkbox(
         value: boolProvider.getValue(widget.i),
+        //value: true,
         onChanged: (value) {
           /*
                                     setState(() {

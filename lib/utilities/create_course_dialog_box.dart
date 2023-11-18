@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:scheduler/providers/provider.dart';
 
 class CreateCourseDialogBox extends StatefulWidget {
   final controllerCourseShortName;
@@ -31,6 +33,7 @@ class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
 
   @override
   Widget build(BuildContext context) {
+    final boolProvider = Provider.of<BoolProvider>(context);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),

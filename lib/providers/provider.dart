@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/firebase_operations.dart';
 
 class BoolProvider extends ChangeNotifier {
   List<bool> _isChecked = [];
@@ -19,8 +20,9 @@ class BoolProvider extends ChangeNotifier {
     _cursos.clear();
     _isChecked.clear();
     _turnos.clear();
-    _cursos = lista;
-    for (int i = 1; i <= lista.length; i++) {
+    _cursos = [...lista];
+    int num = _cursos.length;
+    for (int i = 1; i <= num; i++) {
       _isChecked.add(true);
       _turnos.add(0);
     }
@@ -38,6 +40,16 @@ class BoolProvider extends ChangeNotifier {
 
   void changeValue(int i) {
     _isChecked[i] = !_isChecked[i];
+    notifyListeners();
+  }
+
+  void addItem() {
+    //Añade booleano y turno
+    _isChecked.add(false);
+    _turnos.add(0);
+  }
+
+  void refresh() {
     notifyListeners();
   }
 }
