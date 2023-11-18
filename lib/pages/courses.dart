@@ -24,7 +24,7 @@ class _CoursesState extends State<Courses> {
 
   saveNewCourse() {
     setState(() {
-      // print('categoria ' + _categoria.text);
+      print('categoria ' + _controllerCategoria.text);
       categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
       Curso curso = Curso.empty(_controllerCourseShortName.text,
           _controllerCourseName.text, categoria);
@@ -78,6 +78,7 @@ class _CoursesState extends State<Courses> {
             future: readCourses(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                cursos.clear();
                 snapshot.data?.forEach((data) {
                   cursos.add(Curso.fromJson(data));
                 });

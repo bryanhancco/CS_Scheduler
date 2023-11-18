@@ -53,7 +53,25 @@ class Curso {
 }
 
 class CourseDataSource extends CalendarDataSource {
-  List<int> horas = [7, 7, 8, 9, 10, 11, 12, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9];
+  List<int> horas = [
+    7,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ];
   List<int> minutos = [
     0,
     50,
@@ -112,7 +130,7 @@ class CourseDataSource extends CalendarDataSource {
 
   @override
   DateTime getStartTime(int index) {
-    int nroHora = appointments![index].nro;
+    int nroHora = appointments![index].nro - 1;
     int day = diasInt[nroHora % 5];
     int bloque = nroHora ~/ 5;
     int hourIni = horas[bloque];
@@ -124,7 +142,7 @@ class CourseDataSource extends CalendarDataSource {
 
   @override
   DateTime getEndTime(int index) {
-    int nroHora = appointments![index].nro;
+    int nroHora = appointments![index].nro - 1;
     int day = diasInt[nroHora % 5];
     int bloque = nroHora ~/ 5 + 1;
     int hourIni = horas[bloque];

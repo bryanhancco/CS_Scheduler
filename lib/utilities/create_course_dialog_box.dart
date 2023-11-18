@@ -20,10 +20,15 @@ class CreateCourseDialogBox extends StatefulWidget {
 }
 
 class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
-  List<String> opciones = ['Obligatorio', 'Selectivo'];
+  List<String> opciones = ['Obligatorio', 'Electivo'];
   // ignore: non_constant_identifier_names
   String selectedOption = 'Obligatorio';
   // This widget is the root of your application.
+  @override
+  void initState() {
+    widget.categoria.text = 'Obligatorio';
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

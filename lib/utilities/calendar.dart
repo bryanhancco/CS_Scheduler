@@ -16,7 +16,6 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   List<Curso> cursos = <Curso>[];
-  List<int> indiceTurnos = [0, 0, 0, 0];
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +31,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               cursos.add(Curso.fromJson(data));
             });
             if (boolProvider.checked.isEmpty) {
-              boolProvider.initCourses(cursos.length);
-              print(boolProvider.checked.toString());
+              boolProvider.initCourses(cursos);
             }
 
             return Scaffold(
@@ -41,7 +39,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 view: CalendarView.workWeek,
                 initialSelectedDate: DateTime(2023, 11, 10, 12),
                 dataSource: CourseDataSource(
-                    cursos, indiceTurnos, boolProvider.checked),
+                    cursos, boolProvider.turnos, boolProvider.checked),
                 firstDayOfWeek: 1,
                 timeSlotViewSettings: const TimeSlotViewSettings(
                   startHour: 7,

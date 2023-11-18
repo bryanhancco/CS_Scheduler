@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduler/classes/models.dart';
 
 class BoolProvider extends ChangeNotifier {
   List<bool> _isChecked = [];
+  List<Curso> _cursos = [];
+  List<int> _turnos = [];
   List<bool> get checked => _isChecked;
+  List<Curso> get cursos => _cursos;
+  List<int> get turnos => _turnos;
 
   set check(List<bool> newName) {
     _isChecked = newName;
     notifyListeners();
   }
 
-  void initCourses(int n) {
-    for (int i = 1; i <= n; i++) {
+  void initCourses(List<Curso> lista) {
+    _cursos.clear();
+    _isChecked.clear();
+    _turnos.clear();
+    _cursos = lista;
+    for (int i = 1; i <= lista.length; i++) {
       _isChecked.add(true);
+      _turnos.add(0);
     }
     notifyListeners();
   }
