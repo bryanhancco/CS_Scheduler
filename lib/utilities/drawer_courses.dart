@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/database/scheduler_database.dart';
+import 'package:provider/provider.dart';
+import 'package:scheduler/providers/provider.dart';
 
 class MyDrawer extends StatefulWidget {
   @override
@@ -10,6 +12,14 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   List<Curso> items = <Curso>[];
+  List<bool> isChecked = [true, true];
+
+  void updateCheckboxValue(int i, bool newValue) {
+    setState(() {
+      isChecked[i] = newValue;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -53,11 +63,11 @@ class _MyDrawerState extends State<MyDrawer> {
                 future: readCourses(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    items.clear();
+                    print("Cargando cursos");
                     snapshot.data?.forEach((data) {
                       items.add(Curso.fromJson(data));
                     });
-                    List<bool> isChecked =
-                        List.generate(items.length, (index) => true);
                     return items.isEmpty
                         ? Center(
                             child: Text(
@@ -66,17 +76,23 @@ class _MyDrawerState extends State<MyDrawer> {
                           ))
                         : ListView.separated(
                             itemBuilder: (BuildContext context, int index) {
-                              return ListTile(
+                              /*return ListTile(
                                 title: Text(items[index].CurNom),
                                 leading: Checkbox(
-                                  value: isChecked[index],
+                                  value: boolProvider.getValue(index),
                                   onChanged: (value) {
+                                    /*
                                     setState(() {
+                                      print("set estate");
                                       isChecked[index] = value ?? false;
-                                    });
+                                    });*/
+                                    //boolProvider.changeValue(index);
+                                    updateCheckboxValue(index, value ?? false);
                                   },
                                 ),
-                              );
+                              );*/
+                              return ItemCurso(
+                                  name: items[index].CurNom, i: index);
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) => Divider(
@@ -95,6 +111,46 @@ class _MyDrawerState extends State<MyDrawer> {
                 }),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ItemCurso extends StatefulWidget {
+  final String name;
+  //final bool initialValue;
+  final int i;
+  //List<bool> listaValores;
+//, required this.listaValores
+  ItemCurso({required this.name, required this.i});
+
+  @override
+  _ItemCursoState createState() => _ItemCursoState();
+}
+
+class _ItemCursoState extends State<ItemCurso> {
+  late bool _value;
+
+  @override
+  Widget build(BuildContext context) {
+    final boolProvider = Provider.of<BoolProvider>(context);
+    /*void _changeValue() {
+      boolProvider.changeValue(widget.i);
+    }*/
+
+    return ListTile(
+      title: Text(widget.name),
+      leading: Checkbox(
+        value: boolProvider.getValue(widget.i),
+        onChanged: (value) {
+          /*
+                                    setState(() {
+                                      print("set estate");
+                                      isChecked[index] = value ?? false;
+                                    });*/
+          boolProvider.changeValue(widget.i);
+          //updateCheckboxValue(widget.i, value ?? false);
+        },
       ),
     );
   }

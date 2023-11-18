@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scheduler/pages/courses.dart';
 import 'package:scheduler/utilities/calendar.dart';
 import 'package:scheduler/utilities/table_scheduler.dart';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Curso {
   final String CurCod;
   final String CurNom;
-  final int isRequired;
+  int isRequired;
   final List<Turno> CurTur;
 
   Curso({
@@ -12,9 +12,7 @@ class Curso {
     required this.CurNom,
     required this.isRequired,
     required this.CurTur,
-  }) {
-    print('Se ha creado un nuevo curso: $CurNom');
-  }
+  });
 
   /*static List<Curso> ejemplos = [
     Curso(
@@ -24,9 +22,7 @@ class Curso {
     ),
   ];*/
 
-  Curso.empty(this.CurCod, this.CurNom, this.isRequired) : CurTur = [] {
-    print('Se ha creado un nuevo curso vacío: $CurNom');
-  }
+  Curso.empty(this.CurCod, this.CurNom, this.isRequired) : CurTur = [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -89,10 +85,11 @@ class CourseDataSource extends CalendarDataSource {
   List<int> diasInt = [20, 21, 22, 23, 24];
 
   var today;
-  CourseDataSource(List<Curso> source, List<int> indicesTurnos) {
+  CourseDataSource(
+      List<Curso> source, List<int> indicesTurnos, List<bool> booleanos) {
     List<Hora> horas = [];
     for (int i = 0; i < source.length; i++) {
-      if (source[i].CurTur.isEmpty) {
+      if (source[i].CurTur.isEmpty || !booleanos[i]) {
         continue;
       }
       source[i].CurTur[indicesTurnos[i]].horas.forEach((element) {
