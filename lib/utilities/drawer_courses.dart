@@ -11,10 +11,10 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  List<Curso> items = <Curso>[];
-
   @override
   Widget build(BuildContext context) {
+    final courseProvider = Provider.of<CourseProvider>(context);
+    List<Curso> items = courseProvider.cursos;
     return Drawer(
       child: Column(
         children: [
@@ -52,56 +52,16 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           // = List.generate(Curso.ejemplos.length, (index) => true);
           Expanded(
-            child: FutureBuilder(
-                future: readCourses(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    items.clear();
-                    print("Cargando cursos");
-                    snapshot.data?.forEach((data) {
-                      items.add(Curso.fromJson(data));
-                    });
-                    return items.isEmpty
-                        ? Center(
-                            child: Text(
-                            "No hay Cursos!",
-                            style: TextStyle(fontSize: 20),
-                          ))
-                        : ListView.separated(
-                            itemBuilder: (BuildContext context, int index) {
-                              /*return ListTile(
-                                title: Text(items[index].CurNom),
-                                leading: Checkbox(
-                                  value: boolProvider.getValue(index),
-                                  onChanged: (value) {
-                                    /*
-                                    setState(() {
-                                      print("set estate");
-                                      isChecked[index] = value ?? false;
-                                    });*/
-                                    //boolProvider.changeValue(index);
-                                    updateCheckboxValue(index, value ?? false);
-                                  },
-                                ),
-                              );*/
-                              return ItemCurso(
-                                  name: items[index].CurNom, i: index);
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) => Divider(
-                              height: 1,
-                            ),
-                            itemCount: items.length,
-                          );
-                  } else {
-                    return const Center(
-                      child: Text(
-                        "No se han ingresado cursos!",
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    );
-                  }
-                }),
+            child: ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return ItemCurso(curso: items[index], i: index);
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
+                height: 1,
+              ),
+              itemCount: items.length,
+            ),
           ),
         ],
       ),
@@ -110,41 +70,61 @@ class _MyDrawerState extends State<MyDrawer> {
 }
 
 class ItemCurso extends StatefulWidget {
-  final String name;
+  final Curso curso;
   //final bool initialValue;
   final int i;
   //List<bool> listaValores;
 //, required this.listaValores
-  ItemCurso({required this.name, required this.i});
+  ItemCurso({required this.curso, required this.i});
 
   @override
   _ItemCursoState createState() => _ItemCursoState();
 }
 
 class _ItemCursoState extends State<ItemCurso> {
-  late bool _value;
+  late int? selectedValue = 0;
 
   @override
   Widget build(BuildContext context) {
-    final boolProvider = Provider.of<BoolProvider>(context);
-    /*void _changeValue() {
-      boolProvider.changeValue(widget.i);
+    final shiftProvider = Provider.of<ShiftProvider>(context);
+    /*void _changeCheckValue() {
+      ShiftProvider.changeCheckValue(widget.i);
     }*/
-
+    final int i = widget.i;
+    final Curso curso = widget.curso;
+    final List<String> letras = curso.getLetras();
     return ListTile(
-      title: Text(widget.name),
+      title: Text(curso.CurNom),
       leading: Checkbox(
-        value: boolProvider.getValue(widget.i),
-        //value: true,
+        value: shiftProvider.getCheckValue(i),
         onChanged: (value) {
-          /*
-                                    setState(() {
-                                      print("set estate");
-                                      isChecked[index] = value ?? false;
-                                    });*/
-          boolProvider.changeValue(widget.i);
-          //updateCheckboxValue(widget.i, value ?? false);
+          setState(() {
+            shiftProvider.changeCheckValue(i);
+          });
         },
+      ),
+      trailing: DropdownButton(
+        value: shiftProvider.getShift(i),
+        //value: selectedValue,
+        onChanged: (newValue) {
+          setState(() {
+            //selectedValue = newValue;
+            //print(curso.CurNom + " - " + selectedValue.toString());
+            shiftProvider.changeShift(i, newValue);
+          });
+        },
+        items: List.generate(
+          letras.length,
+          (index) => DropdownMenuItem<int>(
+            value: index,
+            child: Text(letras[index]),
+          ),
+        ),
+        elevation: 16,
+        underline: Container(
+          height: 2,
+          color: Colors.blue,
+        ),
       ),
     );
   }

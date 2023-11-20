@@ -17,29 +17,41 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   List<Curso> cursos = <Curso>[];
 
+  late Future<List> response;
+  @override
+  void initState() {
+    super.initState();
+    response = readCourses();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final boolProvider = Provider.of<BoolProvider>(context);
+    final shiftProvider = Provider.of<ShiftProvider>(context);
+    final courseProvider = Provider.of<CourseProvider>(context);
 
     return Scaffold(
       body: FutureBuilder(
-        future: readCourses(),
+        future: response,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            cursos.clear();
-            snapshot.data?.forEach((data) {
-              cursos.add(Curso.fromJson(data));
-            });
-            if (boolProvider.checked.isEmpty) {
-              boolProvider.initCourses(cursos);
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData && shiftProvider.refreshAll) {
+              shiftProvider.setRefreshAll = true;
+              cursos.clear();
+              snapshot.data?.forEach((data) {
+                cursos.add(Curso.fromJson(data));
+              });
+              //if (shiftProvider.checked.isEmpty) {
+              shiftProvider.initShifts(cursos.length);
+              //}
+              courseProvider.cursos = cursos;
             }
-
+            //print(courseProvider.cursos.length);
             return Scaffold(
               body: SfCalendar(
                 view: CalendarView.workWeek,
                 initialSelectedDate: DateTime(2023, 11, 10, 12),
                 dataSource: CourseDataSource(
-                    cursos, boolProvider.turnos, boolProvider.checked),
+                    cursos, shiftProvider.turnos, shiftProvider.checked),
                 firstDayOfWeek: 1,
                 timeSlotViewSettings: const TimeSlotViewSettings(
                   startHour: 7,
@@ -60,12 +72,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
           Icons.add,
           color: Colors.white,
         ),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
+        onPressed: () async {
+          await Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
               return Courses();
             },
           ));
+          setState(() {
+            response = readCourses();
+          });
         },
       ),
     );

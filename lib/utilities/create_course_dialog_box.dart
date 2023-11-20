@@ -33,7 +33,6 @@ class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
 
   @override
   Widget build(BuildContext context) {
-    final boolProvider = Provider.of<BoolProvider>(context);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),

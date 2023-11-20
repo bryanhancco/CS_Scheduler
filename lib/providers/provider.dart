@@ -3,25 +3,31 @@ import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
 
-class BoolProvider extends ChangeNotifier {
+class ShiftProvider extends ChangeNotifier {
+  bool _refreshAll = true;
   List<bool> _isChecked = [];
-  List<Curso> _cursos = [];
   List<int> _turnos = [];
   List<bool> get checked => _isChecked;
-  List<Curso> get cursos => _cursos;
   List<int> get turnos => _turnos;
+  bool get refreshAll => _refreshAll;
 
-  set check(List<bool> newName) {
-    _isChecked = newName;
+  set setRefreshAll(bool newbool) {
+    _refreshAll = newbool;
+  }
+
+  set check(List<bool> news) {
+    _isChecked = news;
     notifyListeners();
   }
 
-  void initCourses(List<Curso> lista) {
-    _cursos.clear();
+  set turnos(List<int> news) {
+    _turnos = news;
+    notifyListeners();
+  }
+
+  void initShifts(int num) {
     _isChecked.clear();
     _turnos.clear();
-    _cursos = [...lista];
-    int num = _cursos.length;
     for (int i = 1; i <= num; i++) {
       _isChecked.add(true);
       _turnos.add(0);
@@ -29,27 +35,43 @@ class BoolProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool getValue(int i) {
+  bool getCheckValue(int i) {
     return _isChecked[i];
   }
 
-  void setValue(int i, bool newValue) {
-    _isChecked[i] = newValue;
-    notifyListeners();
-  }
-
-  void changeValue(int i) {
+  void changeCheckValue(int i) {
+    //print("Cambiando " + i.toString());
+    _refreshAll = false;
     _isChecked[i] = !_isChecked[i];
     notifyListeners();
   }
 
-  void addItem() {
+  void addItem(int i) {
     //Añade booleano y turno
-    _isChecked.add(false);
-    _turnos.add(0);
+    _isChecked.insert(i, false);
+    _turnos.insert(i, 0);
   }
 
-  void refresh() {
+  int getShift(int i) {
+    return _turnos[i];
+  }
+
+  void changeShift(int i, int? n) {
+    if (n != null) {
+      _refreshAll = false;
+      _turnos[i] = n;
+      notifyListeners();
+    }
+  }
+}
+
+class CourseProvider extends ChangeNotifier {
+  List<Curso> _cursos = [];
+  List<Curso> get cursos => _cursos;
+
+  set cursos(List<Curso> newName) {
+    _cursos.clear();
+    _cursos = [...newName];
     notifyListeners();
   }
 }

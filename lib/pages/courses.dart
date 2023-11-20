@@ -22,6 +22,9 @@ class _CoursesState extends State<Courses> {
 
   Future<void> addCourse(Curso course) async {
     await createCourse(curso: course);
+    setState(() {
+      response = readCourses();
+    });
   }
 
   saveNewCourse() {
@@ -51,10 +54,22 @@ class _CoursesState extends State<Courses> {
     );
   }
 
+  List<Curso> cursos = <Curso>[];
+
+  late Future<List> response;
+  @override
+  void initState() {
+    super.initState();
+    response = readCourses();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final boolProvider = Provider.of<BoolProvider>(context);
-    List<Curso> cursos = <Curso>[];
+    final shiftProvider = Provider.of<ShiftProvider>(context);
+    final courseProvider = Provider.of<CourseProvider>(context);
+    List<Curso> cursosAnt = [...courseProvider.cursos];
+    int i = 0;
+    bool insert = false;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -77,38 +92,59 @@ class _CoursesState extends State<Courses> {
           ],
         ),
         body: FutureBuilder(
-            future: readCourses(),
+            future: response,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                boolProvider.addItem();
-              }
-              if (snapshot.hasData) {
-                cursos.clear();
-                snapshot.data?.forEach((data) {
-                  cursos.add(Curso.fromJson(data));
-                });
-                return cursos.isEmpty
-                    ? Center(
-                        child: Text(
-                        "No hay Cursos!",
-                        style: TextStyle(fontSize: 20),
-                      ))
-                    : ListView.separated(
-                        itemBuilder: (BuildContext context, int index) {
-                          return CoursesTile(curso: cursos[index]);
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(
-                          height: 5,
-                        ),
-                        itemCount: cursos.length,
-                      );
+                if (snapshot.hasData) {
+                  cursos.clear();
+                  cursosAnt.add(Curso.empty('', '', 1));
+                  for (var data in snapshot.data!) {
+                    print(i.toString());
+                    cursos.add(Curso.fromJson(data));
+                    if (cursos.last.CurCod != cursosAnt[i].CurCod && !insert) {
+                      print("Es diferente " + i.toString());
+                      shiftProvider.addItem(i);
+                      insert = !insert;
+                      i--;
+                    }
+                    i++;
+                  }
+                  courseProvider.cursos = cursos;
+                  /*snapshot.data?.forEach((data) {
+                    cursos.add(Curso.fromJson(data));
+                    if(cursos.last.CurCod != 0){
+                      break;
+                    }
+                  });*/
+                  print(shiftProvider.checked.length);
+                  print(shiftProvider.turnos.length);
+                  return cursos.isEmpty
+                      ? const Center(
+                          child: Text(
+                          "No se han ingresado cursos!",
+                          style: TextStyle(fontSize: 20),
+                        ))
+                      : ListView.separated(
+                          itemBuilder: (BuildContext context, int index) {
+                            return CoursesTile(curso: cursos[index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(
+                            height: 5,
+                          ),
+                          itemCount: cursos.length,
+                        );
+                } else {
+                  return const Center(
+                    child: Text(
+                      "No se han ingresado cursos!",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  );
+                }
               } else {
                 return const Center(
-                  child: Text(
-                    "No se han ingresado cursos!",
-                    style: TextStyle(fontSize: 20),
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               }
             }));

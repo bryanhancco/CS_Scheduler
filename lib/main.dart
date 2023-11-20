@@ -39,7 +39,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (context) => BoolProvider(),
+            create: (context) => ShiftProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CourseProvider(),
           ),
         ],
         child: MaterialApp(

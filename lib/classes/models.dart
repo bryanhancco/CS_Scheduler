@@ -49,6 +49,14 @@ class Curso {
     }
   }
 
+  List<String> getLetras() {
+    List<String> letras = [];
+    CurTur.forEach((element) {
+      letras.add(element.TurLet);
+    });
+    return letras;
+  }
+
   void addShift(Turno turno) {
     CurTur.add(turno);
   }
