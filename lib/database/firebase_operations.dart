@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scheduler/classes/models.dart';
 
-const String db = 'courses';
+const String db = 'cursos';
 
 Future createCourse({required Curso curso}) async {
   final course = FirebaseFirestore.instance.collection(db);

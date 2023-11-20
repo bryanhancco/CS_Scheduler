@@ -21,7 +21,15 @@ class ShiftProvider extends ChangeNotifier {
   }
 
   set turnos(List<int> news) {
-    _turnos = news;
+    _turnos = [...news];
+    notifyListeners();
+  }
+
+  void chargeShifts(List<int> news) {
+    _refreshAll = false;
+    _turnos.clear();
+    print("Cargando " + news.toString());
+    _turnos = [...news];
     notifyListeners();
   }
 
@@ -73,5 +81,39 @@ class CourseProvider extends ChangeNotifier {
     _cursos.clear();
     _cursos = [...newName];
     notifyListeners();
+  }
+}
+
+class BlockProvider extends ChangeNotifier {
+  bool _blocked = false;
+  bool get blocked => _blocked;
+
+  set blocked(bool newVal) {
+    _blocked = newVal;
+    notifyListeners();
+  }
+
+  void changeValue() {
+    _blocked = !_blocked;
+  }
+}
+
+class PosiblesProvider {
+  static List<List<int>> posibles = [];
+
+  static void addPosible(List<int> posible) {
+    posibles.add(posible);
+  }
+
+  static List<int> getPosible(int i) {
+    return [...posibles[i]];
+  }
+
+  static int getNumPosibles() {
+    return posibles.length;
+  }
+
+  static void deleteAll() {
+    posibles.clear();
   }
 }

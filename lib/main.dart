@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => CourseProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => BlockProvider(),
+          )
         ],
         child: MaterialApp(
           theme: theme,

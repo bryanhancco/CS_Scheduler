@@ -35,6 +35,11 @@ class Curso {
     };
   }
 
+  List<int> getNumTurnos() {
+    List<int> numturnos = [];
+    return numturnos;
+  }
+
   static Curso fromJson(Map<String, dynamic> json) {
     var listaTurnos = json['CurTur'] as List;
     if (listaTurnos.isEmpty) {
