@@ -1,15 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:scheduler/classes/models.dart';
 
+const String db = 'courses';
+
 Future createCourse({required Curso curso}) async {
-  final course = FirebaseFirestore.instance.collection('courses');
+  final course = FirebaseFirestore.instance.collection(db);
   await course.doc(curso.CurCod).set(curso.toMap());
 }
 
 Future<List> readCourses() async {
   List cursos = [];
   CollectionReference collectionReferenceCursos =
-      FirebaseFirestore.instance.collection('courses');
+      FirebaseFirestore.instance.collection(db);
   QuerySnapshot queryCursos = await collectionReferenceCursos.get();
   queryCursos.docs.forEach((doc) {
     cursos.add(doc.data());
@@ -20,6 +22,6 @@ Future<List> readCourses() async {
 
 Future<void> updateCourse(
     {required String courseId, required Curso curso}) async {
-  final course = FirebaseFirestore.instance.collection('courses');
+  final course = FirebaseFirestore.instance.collection(db);
   await course.doc(courseId).update(curso.toMap());
 }
