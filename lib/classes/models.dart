@@ -1,7 +1,8 @@
 import 'dart:math';
-
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/material.dart';
+
+/* ->  Clase Curso <-  */
 
 class Curso {
   final String CurCod;
@@ -15,14 +16,6 @@ class Curso {
     required this.isRequired,
     required this.CurTur,
   });
-
-  /*static List<Curso> ejemplos = [
-    Curso(
-      CurCod: 'MN',
-      CurNom: 'Metodos Numéricos',
-      isRequired: 1,
-    ),
-  ];*/
 
   Curso.empty(this.CurCod, this.CurNom, this.isRequired) : CurTur = [];
 
@@ -66,6 +59,8 @@ class Curso {
     CurTur.add(turno);
   }
 }
+
+/* -> Conversion de Curso a Calendar <-  */
 
 class CourseDataSource extends CalendarDataSource {
   List<int> horas = [
@@ -197,6 +192,8 @@ class CourseDataSource extends CalendarDataSource {
   }
 }
 
+/* ->  Clase Turno <-  */
+
 class Turno {
   final String TurLet; //Letra
   final String TurDoc; //Docente
@@ -214,14 +211,6 @@ class Turno {
       this.TurDoc)
       : this.horas = [],
         this.preferido = 1;
-
-  /*
-  static List<Turno> ejeTur = [
-    Turno('MN_A','1703244', 'A', 'Olha'),
-    Turno('MN_B', 1703244, 'B', 'Norka'),
-    Turno('MN_C', 1703244, 'C', 'Olha'),
-  ];
-  */
 
   Map<String, dynamic> toMap() {
     return {
@@ -243,6 +232,8 @@ class Turno {
   }
 }
 
+/* ->  Clase Hora <-  */
+
 class Hora {
   final String nombre;
   final int nro;
@@ -250,15 +241,7 @@ class Hora {
   Hora(this.nombre, this.nro);
 }
 
-class Horario {
-  final String HorCod;
-  final int HorInd;
-  Horario(this.HorCod, this.HorInd);
-
-  static List<Horario> horasExistentes = [
-    Horario("H_1", 1),
-  ];
-}
+/* ->  Clase TurnoHorario <-  */
 
 class TurnoHorario {
   final String TurCod;
@@ -272,8 +255,4 @@ class TurnoHorario {
       'HorInd': HorInd,
     };
   }
-
-  /*static List<TurnoHorario> ejemplosTurno = [
-    TurnoHorario('MN_A', 1),
-  ];*/
 }

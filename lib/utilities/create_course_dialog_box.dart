@@ -24,16 +24,6 @@ class CreateCourseDialogBox extends StatefulWidget {
 class _CreateCourseDialogBoxState extends State<CreateCourseDialogBox> {
   // This widget is the root of your application.
   bool selectedOption = false;
-  Widget isRequiredCheckbox(
-      {String? title, bool? initValue, Function(bool boolValue)? onChanged}) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(title!),
-          Checkbox(value: initValue, onChanged: (b) => onChanged!(b!))
-        ]);
-  }
-  
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);

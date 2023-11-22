@@ -3,7 +3,6 @@ import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/utilities/create_shift_dialog_box.dart';
 import 'package:scheduler/utilities/shifts_tile.dart';
-import 'package:scheduler/database/scheduler_database.dart';
 
 class DetallesCursoPage extends StatefulWidget {
   final Curso curso;
@@ -18,12 +17,12 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
   final _controllerTurnoLetra = TextEditingController();
   final _controllerTurnoDocente = TextEditingController();
 
+  // Funcion para agregar un nuevo turno en un curso de la base de datos
   Future<void> addShift(Turno shift) async {
-    //print('A addshift ');
     widget.curso.addShift(shift);
     await updateCourse(courseId: widget.curso.CurCod, curso: widget.curso);
   }
-
+  // Funcion que crea un turno con los datos del DialogBox
   void saveNewShift() {
     setState(() {
       Turno shift = Turno(
@@ -31,7 +30,6 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
           TurDoc: _controllerTurnoDocente.text,
           horas: [...horas],
           preferido: 1);
-
       addShift(shift);
       horas.clear();
       _controllerTurnoLetra.clear();
@@ -40,6 +38,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
     Navigator.of(context).pop();
   }
 
+  // Funcion para crear un nuevo turno con un DialogBox
   void createNewShift() {
     showDialog(
       context: context,
@@ -63,7 +62,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(0, 137, 236, 1),
-        title: Text(
+        title: const Text(
           "Turnos",
           style: TextStyle(
             color: Colors.white,
@@ -81,7 +80,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
         ],
       ),
       body: turnos.isEmpty
-          ? Center(
+          ? const Center(
               child: Text(
               "No hay Turnos!",
               style: TextStyle(fontSize: 20),
@@ -90,7 +89,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
               itemBuilder: (BuildContext context, int index) {
                 return ShiftsTile(turno: turnos[index]);
               },
-              separatorBuilder: (BuildContext context, int index) => Divider(
+              separatorBuilder: (BuildContext context, int index) => const Divider(
                 height: 5,
               ),
               itemCount: turnos.length,

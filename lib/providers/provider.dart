@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
-import 'package:scheduler/database/firebase_operations.dart';
 
 class ShiftProvider extends ChangeNotifier {
   bool _refreshAll = true;

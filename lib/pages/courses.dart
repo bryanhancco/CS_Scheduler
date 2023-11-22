@@ -5,7 +5,7 @@ import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_course_dialog_box.dart';
-import 'package:scheduler/database/scheduler_database.dart';
+import 'package:scheduler/utilities/delete_course_dialog_box.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -17,8 +17,9 @@ class Courses extends StatefulWidget {
 class _CoursesState extends State<Courses> {
   final _controllerCourseShortName = TextEditingController();
   final _controllerCourseName = TextEditingController();
-  final _controllerCategoria = TextEditingController();
-  int categoria = 1;
+  final _controllerDeleteCourse = TextEditingController();
+  final _categoria = TextEditingController();
+  int categoria = 0;
 
   Future<void> addCourse(Curso course) async {
     await createCourse(curso: course);
@@ -27,9 +28,16 @@ class _CoursesState extends State<Courses> {
     });
   }
 
+  Future<void> delete(String cod) async {
+    await deleteCourse(cod);
+    setState(() {
+      response = readCourses();
+    });
+  }
+
   saveNewCourse() {
     setState(() {
-      categoria = (_controllerCategoria.text == 'Obligatorio') ? 1 : 0;
+      categoria = (_categoria.text == 'true') ? 1 : 0;
       Curso curso = Curso.empty(_controllerCourseShortName.text,
           _controllerCourseName.text, categoria);
       addCourse(curso);
@@ -48,12 +56,32 @@ class _CoursesState extends State<Courses> {
           controllerCourseName: _controllerCourseName,
           onSave: saveNewCourse,
           onCancel: () => Navigator.of(context).pop(),
-          categoria: _controllerCategoria,
+          esObligatorio: _categoria,
         );
       },
     );
   }
 
+  void deleteExistent() {
+    setState(() {
+      deleteCourse(_controllerDeleteCourse.text);
+      _controllerDeleteCourse.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
+  void deleteExistentCourse() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DeleteCourseDialogBox(
+          controllerDelete: _controllerDeleteCourse,
+          onDelete: deleteExistent,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
   List<Curso> cursos = <Curso>[];
 
   late Future<List> response;
@@ -91,62 +119,70 @@ class _CoursesState extends State<Courses> {
                 ))
           ],
         ),
-        body: FutureBuilder(
-            future: response,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  cursos.clear();
-                  cursosAnt.add(Curso.empty('', '', 1));
-                  for (var data in snapshot.data!) {
-                    print(i.toString());
-                    cursos.add(Curso.fromJson(data));
-                    if (cursos.last.CurCod != cursosAnt[i].CurCod && !insert) {
-                      print("Es diferente " + i.toString());
-                      shiftProvider.addItem(i);
-                      insert = !insert;
-                      i--;
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("background.png"),
+              fit: BoxFit.cover,
+            )
+          ),
+          child: FutureBuilder(
+              future: response,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    cursos.clear();
+                    cursosAnt.add(Curso.empty('', '', 1));
+                    for (var data in snapshot.data!) {
+                      //print(i.toString());
+                      cursos.add(Curso.fromJson(data));
+                      if (cursos.last.CurCod != cursosAnt[i].CurCod && !insert) {
+                        //print("Es diferente " + i.toString());
+                        shiftProvider.addItem(i);
+                        insert = !insert;
+                        i--;
+                      }
+                      i++;
                     }
-                    i++;
+                    courseProvider.cursos = cursos;
+                    /*snapshot.data?.forEach((data) {
+                      cursos.add(Curso.fromJson(data));
+                      if(cursos.last.CurCod != 0){
+                        break;
+                      }
+                    });*/
+                    //print(shiftProvider.checked.length);
+                    //print(shiftProvider.turnos.length);
+                    return cursos.isEmpty
+                        ? const Center(
+                            child: Text(
+                            "No se han ingresado cursos!",
+                            style: TextStyle(fontSize: 20),
+                          ))
+                        : ListView.separated(
+                            itemBuilder: (BuildContext context, int index) {
+                              return CoursesTile(curso: cursos[index], onDelete: deleteExistentCourse, controllerDelete: _controllerDeleteCourse);
+                            },
+                            separatorBuilder: (BuildContext context, int index) =>
+                                const Divider(
+                              height: 5,
+                            ),
+                            itemCount: cursos.length,
+                          );
+                  } else {
+                    return const Center(
+                      child: Text(
+                        "No se han ingresado cursos!",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    );
                   }
-                  courseProvider.cursos = cursos;
-                  /*snapshot.data?.forEach((data) {
-                    cursos.add(Curso.fromJson(data));
-                    if(cursos.last.CurCod != 0){
-                      break;
-                    }
-                  });*/
-                  print(shiftProvider.checked.length);
-                  print(shiftProvider.turnos.length);
-                  return cursos.isEmpty
-                      ? const Center(
-                          child: Text(
-                          "No se han ingresado cursos!",
-                          style: TextStyle(fontSize: 20),
-                        ))
-                      : ListView.separated(
-                          itemBuilder: (BuildContext context, int index) {
-                            return CoursesTile(curso: cursos[index]);
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(
-                            height: 5,
-                          ),
-                          itemCount: cursos.length,
-                        );
                 } else {
                   return const Center(
-                    child: Text(
-                      "No se han ingresado cursos!",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    child: CircularProgressIndicator(),
                   );
                 }
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }));
+              }),
+        ));
   }
 }

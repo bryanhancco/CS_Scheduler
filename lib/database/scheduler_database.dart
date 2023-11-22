@@ -1,4 +1,9 @@
-/*import 'package:sqflite/sqflite.dart';
+/*
+
+## Base de datos sqlite propia de dispositivos moviles
+## Funciones de manejo de esos datos
+
+import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:scheduler/classes/models.dart';
 

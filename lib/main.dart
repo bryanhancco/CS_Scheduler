@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/pages/home.dart';
-import 'package:scheduler/pages/courses.dart';
 import 'package:scheduler/providers/provider.dart';
-import 'package:scheduler/utilities/drawer_courses.dart';
 import 'package:scheduler/utilities/styles.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+// Conexion con Firebase
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -16,14 +13,6 @@ Future<void> main() async {
   );
   runApp(const MyApp());
 }
-
-/*void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
-}*/
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
