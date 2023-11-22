@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/utilities/detail_shift.dart';
+import 'package:scheduler/database/scheduler_database.dart';
 
 class ShiftsTile extends StatelessWidget {
   final Turno turno;
 
-  const ShiftsTile({
+  ShiftsTile({
     super.key,
     required this.turno,
   });
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     void showInfo() {
       showDialog(
         context: context,
@@ -21,6 +21,8 @@ class ShiftsTile extends StatelessWidget {
         },
       );
     }
+
+    List<int> horas = turno.horas;
 
     return GestureDetector(
       onTap: showInfo,

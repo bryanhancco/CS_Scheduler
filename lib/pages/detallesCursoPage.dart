@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/utilities/create_shift_dialog_box.dart';
 import 'package:scheduler/utilities/shifts_tile.dart';
 import 'package:scheduler/database/scheduler_database.dart';
 
 class DetallesCursoPage extends StatefulWidget {
-  final String curCod;
-  const DetallesCursoPage({super.key, required this.curCod});
+  final Curso curso;
+  const DetallesCursoPage({super.key, required this.curso});
 
   @override
   State<DetallesCursoPage> createState() => _DetallesCursoPageState();
-
 }
 
 class _DetallesCursoPageState extends State<DetallesCursoPage> {
-  final _controllerTurnoLetra = TextEditingController();  
+  List<int> horas = [];
+  final _controllerTurnoLetra = TextEditingController();
   final _controllerTurnoDocente = TextEditingController();
-  
+
   Future<void> addShift(Turno shift) async {
-    await SchedulerDatabase.instance.insertShift(shift);
+    //print('A addshift ');
+    widget.curso.addShift(shift);
+    await updateCourse(courseId: widget.curso.CurCod, curso: widget.curso);
   }
 
   void saveNewShift() {
     setState(() {
-      // print('categoria ' + _categoria.text);
-      Turno shift = Turno.empty(widget.curCod + _controllerTurnoLetra.text, widget.curCod, _controllerTurnoLetra.text, _controllerTurnoDocente.text);
+      Turno shift = Turno(
+          TurLet: _controllerTurnoLetra.text,
+          TurDoc: _controllerTurnoDocente.text,
+          horas: [...horas],
+          preferido: 1);
+
       addShift(shift);
+      horas.clear();
       _controllerTurnoLetra.clear();
       _controllerTurnoDocente.clear();
     });
@@ -37,19 +45,20 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
       context: context,
       builder: (context) {
         return CreateTurnoDialogBox(
+          horasSelec: horas,
           controllerTurnoLetra: _controllerTurnoLetra,
           controllerTurnoDocente: _controllerTurnoDocente,
           onSave: saveNewShift,
           onCancel: () => Navigator.of(context).pop(),
-          curCod: widget.curCod,
+          curCod: widget.curso.CurCod,
         );
-        
       },
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    List<Turno> turnos = widget.curso.CurTur;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -62,7 +71,6 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
             fontSize: 27,
           ),
         ),
-
         actions: [
           IconButton(
               onPressed: createNewShift,
@@ -72,14 +80,13 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
               ))
         ],
       ),
-      body: FutureBuilder(
-        future: SchedulerDatabase.instance.getAllTurnos(widget.curCod), 
-        builder: (BuildContext context, AsyncSnapshot<List<Turno>> snapshot) {
-          if (snapshot.hasData) {
-          List<Turno> turnos = snapshot.data!;
-          return turnos.isEmpty 
-            ? Center(child: Text("No hay Turnos!", style: TextStyle(fontSize: 20),)) 
-            : ListView.separated(
+      body: turnos.isEmpty
+          ? Center(
+              child: Text(
+              "No hay Turnos!",
+              style: TextStyle(fontSize: 20),
+            ))
+          : ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 return ShiftsTile(turno: turnos[index]);
               },
@@ -87,15 +94,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
                 height: 5,
               ),
               itemCount: turnos.length,
-            );
-          }
-          else {
-            return const Center(
-              child: Text("No se han ingresado turnos!", style: TextStyle(fontSize: 20),),
-            );
-          }
-        }
-      )
+            ),
     );
   }
 }

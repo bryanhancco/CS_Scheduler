@@ -20,14 +20,14 @@ class CoursesTile extends StatelessWidget {
         // Por ejemplo, navegación a otra página:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
-            return DetallesCursoPage(curCod: curso.CurCod);
+            return DetallesCursoPage(curso: curso);
           },
         ));
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 18, left: 15, right: 15),
         child: Container(
-          padding: const EdgeInsets.all(18.0),
+          padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(),
@@ -40,10 +40,12 @@ class CoursesTile extends StatelessWidget {
               const SizedBox(
                 width: 20,
               ),
-              Text(
-                curso.CurNom,
-                style: const TextStyle(
-                  fontSize: 27,
+              Expanded(
+                child: Text(
+                  curso.CurNom,
+                  style: const TextStyle(
+                    fontSize: 22,
+                  ),
                 ),
               ),
             ],
