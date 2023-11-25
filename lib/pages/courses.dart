@@ -6,6 +6,7 @@ import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_course_dialog_box.dart';
 import 'package:scheduler/utilities/delete_course_dialog_box.dart';
+import 'package:scheduler/utilities/edit_course_dialog_box.dart';
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -62,6 +63,23 @@ class _CoursesState extends State<Courses> {
     );
   }
 
+  void editCurso(Curso curso) {
+    print("editCurso");
+    showDialog(
+      context: context,
+      builder: (context) {
+        return EditCourseDialogBox(
+          controllerCourseShortName: _controllerCourseShortName,
+          controllerCourseName: _controllerCourseName,
+          onSave: saveNewCourse,
+          onCancel: () => Navigator.of(context).pop(),
+          esObligatorio: _categoria,
+          cursoForEdition: curso,
+        );
+      },
+    );
+  }
+
   void deleteExistent() {
     setState(() {
       deleteCourse(_controllerDeleteCourse.text);
@@ -82,6 +100,7 @@ class _CoursesState extends State<Courses> {
       },
     );
   }
+
   List<Curso> cursos = <Curso>[];
 
   late Future<List> response;
@@ -121,11 +140,10 @@ class _CoursesState extends State<Courses> {
         ),
         body: Container(
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("background.png"),
-              fit: BoxFit.cover,
-            )
-          ),
+              image: DecorationImage(
+            image: AssetImage("background.png"),
+            fit: BoxFit.cover,
+          )),
           child: FutureBuilder(
               future: response,
               builder: (context, snapshot) {
@@ -136,7 +154,8 @@ class _CoursesState extends State<Courses> {
                     for (var data in snapshot.data!) {
                       //print(i.toString());
                       cursos.add(Curso.fromJson(data));
-                      if (cursos.last.CurCod != cursosAnt[i].CurCod && !insert) {
+                      if (cursos.last.CurCod != cursosAnt[i].CurCod &&
+                          !insert) {
                         //print("Es diferente " + i.toString());
                         shiftProvider.addItem(i);
                         insert = !insert;
@@ -160,11 +179,19 @@ class _CoursesState extends State<Courses> {
                             style: TextStyle(fontSize: 20),
                           ))
                         : ListView.separated(
+                            //construye la lista
                             itemBuilder: (BuildContext context, int index) {
-                              return CoursesTile(curso: cursos[index], onDelete: deleteExistentCourse, controllerDelete: _controllerDeleteCourse);
+                              return CoursesTile(
+                                  curso: cursos[index],
+                                  onDelete: deleteExistentCourse,
+                                  controllerDelete: _controllerDeleteCourse,
+                                  onEdit: () {
+                                    editCurso(cursos[index]);
+                                  });
                             },
-                            separatorBuilder: (BuildContext context, int index) =>
-                                const Divider(
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const Divider(
                               height: 5,
                             ),
                             itemCount: cursos.length,

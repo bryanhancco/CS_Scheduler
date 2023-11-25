@@ -7,11 +7,13 @@ class CoursesTile extends StatelessWidget {
   final Curso curso;
   final VoidCallback onDelete;
   final controllerDelete;
+  final VoidCallback onEdit;
   const CoursesTile({
     super.key,
     required this.curso,
     required this.onDelete,
     required this.controllerDelete,
+    required this.onEdit,
   });
 
   // This widget is the root of your application.
@@ -107,6 +109,14 @@ class CoursesTile extends StatelessWidget {
                       ),
                     ),
                   ),
+                  IconButton(
+                      onPressed: () {
+                        //Aqui habia un error por construir un widget, haciendo estados
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
+                          onEdit();
+                        });
+                      },
+                      icon: Icon(Icons.edit))
                 ],
               ),
             ),

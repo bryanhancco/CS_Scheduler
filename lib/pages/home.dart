@@ -22,56 +22,53 @@ class _HomeState extends State<Home> {
     final CourseProvider courseProvider = context.read<CourseProvider>();
     final ShiftProvider shiftProvider = context.read<ShiftProvider>();
     final BlockProvider blockProvider = context.read<BlockProvider>();
-    return Stack(
-      children: [
-        Scaffold(
-          appBar: AppBar(
-            iconTheme: const IconThemeData(color: Colors.black),
-            backgroundColor: Colors.white,
-            title: const Center(
-              child: Text(
-                "HorarioHarmony",
-                style: TextStyle(
-                  color: Color.fromRGBO(0, 137, 236, 1),
-                  fontWeight: FontWeight.bold,
-                ),
+    return Stack(children: [
+      Scaffold(
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          title: const Center(
+            child: Text(
+              "HorarioHarmony",
+              style: TextStyle(
+                color: Color.fromRGBO(0, 137, 236, 1),
+                fontWeight: FontWeight.bold,
               ),
             ),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  blockProvider.changeValue();
-                  int n = shiftProvider.turnos.length;
-                  List<int> arregloGenerado = List<int>.filled(n, 0);
-                  List<int> turnos =
-                      []; //Crea un arreglo donde se almacenara el numero de turnos disponibles por curso
-                  List<Curso> cursos = courseProvider.cursos;
-                  cursos.forEach((curso) {
-                    //añade como elemento i al arreglo de turno el numero de turnos -1
-                    //si esque hubiese tres turnos se agrega 2
-                    turnos.add(curso.CurTur.length - 1);
-                  });
-                  PosiblesProvider.deleteAll();
-                  hacerCombinaciones(turnos, arregloGenerado, 0);
-                  mostrarMensaje(
-                      context,
-                      'Horarios Generados',
-                      'Se generaron ${PosiblesProvider.getNumPosibles()} posibles horarios ${PosiblesProvider.getPosible(20)}');
-                  shiftProvider.chargeShifts(PosiblesProvider.getPosible(20));
-                  blockProvider.changeValue();
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                child: const Icon(
-                  Icons.tips_and_updates,
-                  color: Colors.black,
-                ),
-              ),
-            ],
           ),
-
-          drawer: MyDrawer(),
-          body: const CalendarScreen(),
+          actions: [
+            ElevatedButton(
+              //boton que genera horarios el foquito
+              onPressed: () {
+                blockProvider.changeValue();
+                int n = shiftProvider.turnos.length;
+                List<int> arregloGenerado = List<int>.filled(n, 0);
+                List<int> turnos =
+                    []; //Crea un arreglo donde se almacenara el numero de turnos disponibles por curso
+                List<Curso> cursos = courseProvider.cursos;
+                cursos.forEach((curso) {
+                  //añade como elemento i al arreglo de turno el numero de turnos -1
+                  //si esque hubiese tres turnos se agrega 2
+                  turnos.add(curso.CurTur.length - 1);
+                });
+                PosiblesProvider.deleteAll();
+                hacerCombinaciones(turnos, arregloGenerado, 0);
+                mostrarMensaje(context, 'Horarios Generados',
+                    'Se generaron ${PosiblesProvider.getNumPosibles()} posibles horarios ${PosiblesProvider.getPosible(20)}');
+                shiftProvider.chargeShifts(PosiblesProvider.getPosible(20));
+                blockProvider.changeValue();
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+              child: const Icon(
+                Icons.tips_and_updates,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
+        drawer: MyDrawer(),
+        body: const CalendarScreen(),
+      ),
       if (blockProvider.blocked) const LoadingOverlay(),
     ]);
   }
