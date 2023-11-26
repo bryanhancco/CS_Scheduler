@@ -81,6 +81,7 @@ class _CoursesState extends State<Courses> {
   }
 
   void deleteExistent() {
+    print(_controllerDeleteCourse.text);
     setState(() {
       deleteCourse(_controllerDeleteCourse.text);
       _controllerDeleteCourse.clear();
@@ -89,6 +90,7 @@ class _CoursesState extends State<Courses> {
   }
 
   void deleteExistentCourse() {
+    print(_controllerDeleteCourse.text);
     showDialog(
       context: context,
       builder: (context) {

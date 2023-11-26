@@ -19,7 +19,7 @@ class CoursesTile extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    controllerDelete.text = curso.CurCod;
+    //controllerDelete.text = curso.CurCod;
     return GestureDetector(
       onTap: () {
         // Aquí puedes definir la acción que se ejecutará al tocar el elemento de la lista
@@ -81,6 +81,7 @@ class CoursesTile extends StatelessWidget {
             },
             */
             onDismissed: (direction) {
+              controllerDelete.text = curso.CurCod;
               onDelete();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
