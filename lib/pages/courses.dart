@@ -82,10 +82,9 @@ class _CoursesState extends State<Courses> {
 
   void deleteExistent() {
     print(_controllerDeleteCourse.text);
-    setState(() {
-      deleteCourse(_controllerDeleteCourse.text);
-      _controllerDeleteCourse.clear();
-    });
+    deleteCourse(_controllerDeleteCourse.text);
+    _controllerDeleteCourse.clear();
+    //setState(() {});
     Navigator.of(context).pop();
   }
 
@@ -95,10 +94,9 @@ class _CoursesState extends State<Courses> {
       context: context,
       builder: (context) {
         return DeleteCourseDialogBox(
-          controllerDelete: _controllerDeleteCourse,
-          onDelete: deleteExistent,
-          onCancel: () => Navigator.of(context).pop(),
-        );
+            controllerDelete: _controllerDeleteCourse,
+            onDelete: deleteExistent,
+            onCancel: () => Navigator.of(context).pop());
       },
     );
   }
