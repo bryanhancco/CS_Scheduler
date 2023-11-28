@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduler/database/sign_in_google.dart';
 import 'package:scheduler/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,11 +14,36 @@ class _LoginScreenState extends State<LoginScreen> {
   final _controllerLoginEmail = TextEditingController();
   final _controllerLoginPassword = TextEditingController();
   
-  void signUserIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _controllerLoginEmail.text, 
-      password: _controllerLoginPassword.text
+  void wrongCredentials() {
+    showDialog(
+      context: context, 
+      builder:(context) {
+        return const AlertDialog(
+          title: Center(child: Text("Datos incorrectos")),
+        );
+      },
     );
+  }
+
+  void signUserIn() async {
+    showDialog(
+      context: context, 
+      builder:(context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _controllerLoginEmail.text, 
+        password: _controllerLoginPassword.text
+      );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      wrongCredentials();
+    }
   }
 
   Widget Presentation() {
@@ -141,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       onTap: () {
-        // print("TAP!"); 
+        AuthService().signInWithGoogle(); 
       },
     );
   }

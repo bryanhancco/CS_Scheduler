@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:scheduler/pages/login.dart';
-//import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -14,6 +13,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _controllerRegisterEmail = TextEditingController();
   final _controllerRegisterPassword = TextEditingController();
   final _controllerRegisterConfirmPassword = TextEditingController();
+  
+  void wrongCredentials() {
+    showDialog(
+      context: context, 
+      builder:(context) {
+        return const AlertDialog(
+          title: Center(child: Text("Verifique correctamente los datos")),
+        );
+      },
+    );
+  }
+
+  void signUserUp() async {
+    showDialog(
+      context: context, 
+      builder:(context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    try {
+      if (_controllerRegisterPassword.text == _controllerRegisterConfirmPassword.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _controllerRegisterEmail.text, 
+          password: _controllerRegisterPassword.text,      
+        );
+      } else {
+        wrongCredentials();
+      }
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      wrongCredentials();
+    }
+  }
 
   Widget Presentation() {
     MediaQueryData queryData = MediaQuery.of(context);
