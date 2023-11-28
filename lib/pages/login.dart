@@ -43,7 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pop(context);
       wrongCredentials();
     }
-
   }
 
   Widget Presentation() {
