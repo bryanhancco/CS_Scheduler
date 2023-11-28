@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
+import 'package:scheduler/pages/auth_page.dart';
 import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/calendar.dart';
 import 'package:scheduler/utilities/create_shift_dialog_box.dart';
@@ -19,10 +21,10 @@ class _HomeState extends State<Home> {
   //final nextfriday = nextFriday(DateTime.now());
   //final nextfriday = nextFriday(DateTime(2023, 11, 6));
   // Simula una función que lleva tiempo
-
+  final user = FirebaseAuth.instance.currentUser;
   late bool _blocked;
   late List<Curso> _cursos;
-
+  
   @override
   void initState() {
     super.initState();

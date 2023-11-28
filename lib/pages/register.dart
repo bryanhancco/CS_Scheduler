@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduler/pages/home.dart';
 import 'package:scheduler/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -43,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         wrongCredentials();
       }
-      Navigator.pop(context);
+      //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       wrongCredentials();
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-  Widget SignInBody() {
+  Widget RegisterBody() {
     MediaQueryData queryData = MediaQuery.of(context);
     return SizedBox(
       width: queryData.size.width * 0.9,
@@ -118,7 +119,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: () {}, 
+                onPressed: () {
+                  signUserUp();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ));
+                }, 
                 child: const Text("Registrar"),
               ),
               Column(
@@ -174,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Presentation(),
               const SizedBox(height: 30.0,),
-              SignInBody(),
+              RegisterBody(),
             ],
           ),
         ),

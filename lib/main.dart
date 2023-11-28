@@ -7,6 +7,8 @@ import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/styles.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 // Conexion con Firebase
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
