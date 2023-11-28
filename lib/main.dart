@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduler/pages/auth_page.dart';
 import 'package:scheduler/pages/home.dart';
 import 'package:scheduler/pages/login.dart';
 import 'package:scheduler/providers/provider.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          home: const LoginScreen(),
+          home: const AuthPage(),
           /*routes: {
             '/home': (context) => Home(),
             '/courses': (context) => const Courses(),

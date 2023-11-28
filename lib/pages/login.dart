@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scheduler/pages/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +13,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _controllerLoginEmail = TextEditingController();
   final _controllerLoginPassword = TextEditingController();
   
+  void signUserIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _controllerLoginEmail.text, 
+      password: _controllerLoginPassword.text
+    );
+  }
+
   Widget Presentation() {
     MediaQueryData queryData = MediaQuery.of(context);
     return SizedBox(
@@ -78,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: () {}, 
+                onPressed: signUserIn, 
                 child: const Text("Iniciar Sesión"),
               ),
               Column(
