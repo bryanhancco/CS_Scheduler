@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scheduler/pages/home.dart';
+import 'package:scheduler/pages/login.dart';
 import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/styles.dart';
 import 'firebase_options.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           theme: theme,
           debugShowCheckedModeBanner: false,
-          home: Home(),
+          home: const LoginScreen(),
           /*routes: {
             '/home': (context) => Home(),
             '/courses': (context) => const Courses(),
