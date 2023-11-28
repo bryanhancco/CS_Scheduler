@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scheduler/database/sign_in_google.dart';
 import 'package:scheduler/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -166,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       onTap: () {
-        // print("TAP!"); 
+        AuthService().signInWithGoogle(); 
       },
     );
   }
