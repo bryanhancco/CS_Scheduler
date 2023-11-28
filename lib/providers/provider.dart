@@ -55,8 +55,10 @@ class ShiftProvider extends ChangeNotifier {
 
   void addItem(int i) {
     //Añade booleano y turno
+    //_refreshAll = false;
     _isChecked.insert(i, false);
     _turnos.insert(i, 0);
+    notifyListeners();
   }
 
   int getShift(int i) {

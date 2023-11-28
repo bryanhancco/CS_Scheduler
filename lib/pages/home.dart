@@ -83,6 +83,9 @@ class _HomeState extends State<Home> {
     //bool boolprof= true; //Si es que los requerimientos de docente (turno) se cumplen
     //boolprof es true por defecto hasta q se demuestre lo contrario
     for (int i = 0; i < ncursos; i++) {
+      if (_cursos[i].CurTur.isEmpty) {
+        continue;
+      }
       int turno = turnos[i]; //El turno del curso i
       List<int> horas = _cursos[i]
           .CurTur[turno]
