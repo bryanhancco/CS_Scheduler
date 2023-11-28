@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:scheduler/pages/register.dart';
-//import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -120,6 +118,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
   
+  Widget GoogleOption() {
+    return GestureDetector(
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Color(0xffF0F0F0),
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(color: Colors.grey)
+        ),
+        child: Image.asset(
+          "google.png",
+          width: 40,
+        ),
+      ),
+      onTap: () {
+        // print("TAP!"); 
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Presentation(),
               const SizedBox(height: 30.0,),
               SignInBody(),
+              const SizedBox(height: 30.0,),
+              GoogleOption()
             ],
           ),
         ),
