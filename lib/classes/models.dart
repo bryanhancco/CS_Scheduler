@@ -58,6 +58,19 @@ class Curso {
   void addShift(Turno turno) {
     CurTur.add(turno);
   }
+
+  void removeShift(String turnoId) {
+    //Tomamos como ID : A, B, C y lo removemos del objeto curso
+    CurTur.removeWhere(
+        (turno) => turno.TurLet == turnoId); //recorre todos los turnos
+  }
+
+  void removeShiftByIndex(int index) {
+    // Eliminamos el turno en el índice proporcionado
+    if (index >= 0 && index < CurTur.length) {
+      CurTur.removeAt(index);
+    }
+  }
 }
 
 /* -> Conversion de Curso a Calendar <-  */

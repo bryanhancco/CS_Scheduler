@@ -22,6 +22,23 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
     widget.curso.addShift(shift);
     await updateCourse(courseId: widget.curso.CurCod, curso: widget.curso);
   }
+
+  /* Future<void> removeTurno(String turnoId) async {
+    widget.curso.removeShift(turnoId);
+    await updateCourse(courseId: widget.curso.CurCod, curso: widget.curso);
+  }*/
+  //eliminado por indice
+  Future<void> removeTurnoByIndex(int index) async {
+    widget.curso.removeShiftByIndex(index);
+    await updateCourse(courseId: widget.curso.CurCod, curso: widget.curso);
+  }
+
+  void removeTurno(int index) {
+    setState(() {
+      removeTurnoByIndex(index);
+    });
+  }
+
   // Funcion que crea un turno con los datos del DialogBox
   void saveNewShift() {
     setState(() {
@@ -87,9 +104,16 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
             ))
           : ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-                return ShiftsTile(turno: turnos[index]);
+                return ShiftsTile(
+                  turno: turnos[index],
+                  index: index,
+                  onDelete: () {
+                    removeTurno(index);
+                  },
+                );
               },
-              separatorBuilder: (BuildContext context, int index) => const Divider(
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Divider(
                 height: 5,
               ),
               itemCount: turnos.length,
