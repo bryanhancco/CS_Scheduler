@@ -114,7 +114,7 @@ class CourseDataSource extends CalendarDataSource {
     'Viernes'
   ];
 
-  List<int> diasInt = [20, 21, 22, 23, 24];
+  List<int> diasInt = [4, 5, 6, 7, 8];
   List<Color> colores = [];
 
   var today;

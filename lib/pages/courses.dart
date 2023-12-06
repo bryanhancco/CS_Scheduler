@@ -144,7 +144,7 @@ class _CoursesState extends State<Courses> {
         body: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage("background.png"),
+            image: AssetImage("assets/background.png"),
             fit: BoxFit.cover,
           )),
           child: FutureBuilder(
@@ -166,7 +166,7 @@ class _CoursesState extends State<Courses> {
                       }
                       i++;
                     }
-                    courseProvider.cursos = cursos;
+                    courseProvider.initCursos(cursos);
                     /*snapshot.data?.forEach((data) {
                       cursos.add(Curso.fromJson(data));
                       if(cursos.last.CurCod != 0){
