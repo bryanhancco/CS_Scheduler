@@ -13,11 +13,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _controllerLoginEmail = TextEditingController();
   final _controllerLoginPassword = TextEditingController();
-  
+
   void wrongCredentials() {
     showDialog(
-      context: context, 
-      builder:(context) {
+      context: context,
+      builder: (context) {
         return const AlertDialog(
           title: Center(child: Text("Datos incorrectos")),
         );
@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void signUserIn() async {
     showDialog(
-      context: context, 
-      builder:(context) {
+      context: context,
+      builder: (context) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -36,9 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _controllerLoginEmail.text, 
-        password: _controllerLoginPassword.text
-      );
+          email: _controllerLoginEmail.text,
+          password: _controllerLoginPassword.text);
       Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -59,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
               Text(
-                "¡Bienvenido!", 
+                "¡Bienvenido!",
                 style: TextStyle(
                   color: Color.fromRGBO(0, 137, 236, 1),
                   fontWeight: FontWeight.bold,
@@ -80,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   Widget SignInBody() {
     MediaQueryData queryData = MediaQuery.of(context);
     return SizedBox(
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: signUserIn, 
+                onPressed: signUserIn,
                 child: const Text("Iniciar Sesión"),
               ),
               Column(
@@ -124,50 +124,49 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const RegisterScreen();
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const RegisterScreen();
+                          },
+                        ));
                       },
-                      ));
-                    }, 
-                    child: const Text(
-                      "Registrese ahora",
-                      style: TextStyle(
-                        color: Color(0xff0089EC),
-                        decoration: TextDecoration.underline,
-                      ),
-                    )
-                  ),
+                      child: const Text(
+                        "Registrese ahora",
+                        style: TextStyle(
+                          color: Color(0xff0089EC),
+                          decoration: TextDecoration.underline,
+                        ),
+                      )),
                 ],
               )
-            ].map((widget) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: widget,
-              ))
-            .toList(),               
+            ]
+                .map((widget) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: widget,
+                    ))
+                .toList(),
           ),
         ),
       ),
     );
   }
-  
+
   Widget GoogleOption() {
     return GestureDetector(
       child: Container(
         padding: const EdgeInsets.all(15.0),
         decoration: BoxDecoration(
-          color: Color(0xffF0F0F0),
-          borderRadius: BorderRadius.circular(16.0),
-          border: Border.all(color: Colors.grey)
-        ),
+            color: Color(0xffF0F0F0),
+            borderRadius: BorderRadius.circular(16.0),
+            border: Border.all(color: Colors.grey)),
         child: Image.asset(
-          "google.png",
+          "assets/google.png",
           width: 40,
         ),
       ),
       onTap: () {
-        AuthService().signInWithGoogle(); 
+        AuthService().signInWithGoogle();
       },
     );
   }
@@ -177,19 +176,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("background_login.png"),
-            fit: BoxFit.cover,
-          )
-        ),
+            image: DecorationImage(
+          image: AssetImage("assets/background_login.png"),
+          fit: BoxFit.cover,
+        )),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Presentation(),
-              const SizedBox(height: 30.0,),
+              const SizedBox(
+                height: 30.0,
+              ),
               SignInBody(),
-              const SizedBox(height: 30.0,),
+              const SizedBox(
+                height: 30.0,
+              ),
               GoogleOption()
             ],
           ),

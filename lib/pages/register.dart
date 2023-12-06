@@ -14,11 +14,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _controllerRegisterEmail = TextEditingController();
   final _controllerRegisterPassword = TextEditingController();
   final _controllerRegisterConfirmPassword = TextEditingController();
-  
+
   void wrongCredentials() {
     showDialog(
-      context: context, 
-      builder:(context) {
+      context: context,
+      builder: (context) {
         return const AlertDialog(
           title: Center(child: Text("Verifique correctamente los datos")),
         );
@@ -28,18 +28,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void signUserUp() async {
     showDialog(
-      context: context, 
-      builder:(context) {
+      context: context,
+      builder: (context) {
         return const Center(
           child: CircularProgressIndicator(),
         );
       },
     );
     try {
-      if (_controllerRegisterPassword.text == _controllerRegisterConfirmPassword.text) {
+      if (_controllerRegisterPassword.text ==
+          _controllerRegisterConfirmPassword.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _controllerRegisterEmail.text, 
-          password: _controllerRegisterPassword.text,      
+          email: _controllerRegisterEmail.text,
+          password: _controllerRegisterPassword.text,
         );
       } else {
         wrongCredentials();
@@ -64,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               Text(
-                "Crea tu Cuenta!", 
+                "Crea tu Cuenta!",
                 style: TextStyle(
                   color: Color.fromRGBO(0, 137, 236, 1),
                   fontWeight: FontWeight.bold,
@@ -77,6 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
+
   Widget RegisterBody() {
     MediaQueryData queryData = MediaQuery.of(context);
     return SizedBox(
@@ -126,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return const Home();
                     },
                   ));
-                }, 
+                },
                 child: const Text("Registrar"),
               ),
               Column(
@@ -138,50 +140,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const LoginScreen();
+                          },
+                        ));
                       },
-                      ));
-                    }, 
-                    child: const Text(
-                      "Iniciar sesión",
-                      style: TextStyle(
-                        color: Color(0xff0089EC),
-                        decoration: TextDecoration.underline,
-                      ),
-                    )
-                  ),
+                      child: const Text(
+                        "Iniciar sesión",
+                        style: TextStyle(
+                          color: Color(0xff0089EC),
+                          decoration: TextDecoration.underline,
+                        ),
+                      )),
                 ],
               )
-            ].map((widget) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: widget,
-              ))
-            .toList(),               
+            ]
+                .map((widget) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: widget,
+                    ))
+                .toList(),
           ),
         ),
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("background_login.png"),
-            fit: BoxFit.cover,
-          )
-        ),
+            image: DecorationImage(
+          image: AssetImage("assets/background_login.png"),
+          fit: BoxFit.cover,
+        )),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Presentation(),
-              const SizedBox(height: 30.0,),
+              const SizedBox(
+                height: 30.0,
+              ),
               RegisterBody(),
             ],
           ),

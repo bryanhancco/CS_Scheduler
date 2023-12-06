@@ -43,8 +43,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
               //if (shiftProvider.checked.isEmpty) {
               shiftProvider.initShifts(cursos.length);
               //}
-              courseProvider.cursos = cursos;
+              courseProvider.initCursos(cursos);
             }
+            //});
             //print(courseProvider.cursos.length);
             return Scaffold(
               body: SfCalendar(

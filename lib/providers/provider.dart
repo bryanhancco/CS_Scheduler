@@ -39,7 +39,6 @@ class ShiftProvider extends ChangeNotifier {
       _isChecked.add(true);
       _turnos.add(0);
     }
-    notifyListeners();
   }
 
   bool getCheckValue(int i) {
@@ -58,7 +57,7 @@ class ShiftProvider extends ChangeNotifier {
     //_refreshAll = false;
     _isChecked.insert(i, false);
     _turnos.insert(i, 0);
-    notifyListeners();
+    //notifyListeners();
   }
 
   int getShift(int i) {
@@ -82,6 +81,11 @@ class CourseProvider extends ChangeNotifier {
     _cursos.clear();
     _cursos = [...newName];
     notifyListeners();
+  }
+
+  void initCursos(List<Curso> newName) {
+    _cursos.clear();
+    _cursos = [...newName];
   }
 }
 
