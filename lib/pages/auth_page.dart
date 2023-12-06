@@ -16,7 +16,6 @@ class AuthPage extends StatelessWidget {
               return const Home();
             } else {
               return const LoginScreen();
-              return const Home();
             }
           }),
     );
