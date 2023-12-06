@@ -5,22 +5,25 @@ import 'package:flutter/material.dart';
 /* ->  Clase Curso <-  */
 
 class Curso {
+  final String UserEmail;
   final String CurCod;
   final String CurNom;
   int isRequired;
   final List<Turno> CurTur;
 
   Curso({
+    required this.UserEmail,
     required this.CurCod,
     required this.CurNom,
     required this.isRequired,
     required this.CurTur,
   });
 
-  Curso.empty(this.CurCod, this.CurNom, this.isRequired) : CurTur = [];
+  Curso.empty(this.UserEmail, this.CurCod, this.CurNom, this.isRequired) : CurTur = [];
 
   Map<String, dynamic> toMap() {
     return {
+      'UserEmail': UserEmail,
       'CurCod': CurCod,
       'CurNom': CurNom,
       'CurReq': isRequired,
@@ -36,9 +39,10 @@ class Curso {
   static Curso fromJson(Map<String, dynamic> json) {
     var listaTurnos = json['CurTur'] as List;
     if (listaTurnos.isEmpty) {
-      return Curso.empty(json['CurCod'], json['CurNom'], json['CurReq']);
+      return Curso.empty(json['UserEmail'], json['CurCod'], json['CurNom'], json['CurReq']);
     } else {
       return Curso(
+        UserEmail: json['UserEmail'],
         CurCod: json['CurCod'],
         CurNom: json['CurNom'],
         isRequired: json['CurReq'],

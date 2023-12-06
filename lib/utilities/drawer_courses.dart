@@ -16,6 +16,7 @@ class _MyDrawerState extends State<MyDrawer> {
   
   void signUserOut() {
     FirebaseAuth.instance.signOut();
+    print(FirebaseAuth.instance.currentUser!.email!);
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
         return const AuthPage();
