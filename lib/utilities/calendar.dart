@@ -6,6 +6,9 @@ import 'package:scheduler/pages/courses.dart';
 import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/drawer_courses.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+//String user = FirebaseAuth.instance.currentUser!.email!;
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -21,7 +24,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    response = readCourses();
+    response = readCourses(FirebaseAuth.instance.currentUser!.email!);
   }
 
   @override
@@ -49,7 +52,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             return Scaffold(
               body: SfCalendar(
                 view: CalendarView.workWeek,
-                initialSelectedDate: DateTime(2023, 11, 10, 12),
+                initialSelectedDate: DateTime(2023, 12, 12, 12),
                 dataSource: CourseDataSource(
                     cursos, shiftProvider.turnos, shiftProvider.checked),
                 firstDayOfWeek: 1,
@@ -68,7 +71,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
@@ -79,7 +82,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             },
           ));
           setState(() {
-            response = readCourses();
+            response = readCourses(FirebaseAuth.instance.currentUser!.email!);
           });
         },
       ),

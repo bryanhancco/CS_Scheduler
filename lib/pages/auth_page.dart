@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scheduler/pages/home.dart';
 import 'package:scheduler/pages/login.dart';
+import 'package:scheduler/pages/login_or_register.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -15,7 +16,7 @@ class AuthPage extends StatelessWidget {
             if (snapshot.hasData) {
               return const Home();
             } else {
-              return const LoginScreen();
+              return const LoginOrRegisterScreen();
             }
           }),
     );

@@ -7,6 +7,9 @@ import 'package:scheduler/utilities/courses_tile.dart';
 import 'package:scheduler/utilities/create_course_dialog_box.dart';
 import 'package:scheduler/utilities/delete_course_dialog_box.dart';
 import 'package:scheduler/utilities/edit_course_dialog_box.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+//String user = FirebaseAuth.instance.currentUser!.email!; //correo electronico del usuario
 
 class Courses extends StatefulWidget {
   const Courses({super.key});
@@ -25,21 +28,21 @@ class _CoursesState extends State<Courses> {
   Future<void> addCourse(Curso course) async {
     await createCourse(curso: course);
     setState(() {
-      response = readCourses();
+      response = readCourses(FirebaseAuth.instance.currentUser!.email!);
     });
   }
 
   Future<void> delete(String cod) async {
     await deleteCourse(cod);
     setState(() {
-      response = readCourses();
+      response = readCourses(FirebaseAuth.instance.currentUser!.email!);
     });
   }
 
   saveNewCourse() {
     setState(() {
       categoria = (_categoria.text == 'true') ? 1 : 0;
-      Curso curso = Curso.empty(_controllerCourseShortName.text,
+      Curso curso = Curso.empty(FirebaseAuth.instance.currentUser!.email!, _controllerCourseShortName.text,
           _controllerCourseName.text, categoria);
       addCourse(curso);
       _controllerCourseShortName.clear();
@@ -107,7 +110,7 @@ class _CoursesState extends State<Courses> {
   @override
   void initState() {
     super.initState();
-    response = readCourses();
+    response = readCourses(FirebaseAuth.instance.currentUser!.email!);
   }
 
   @override
@@ -150,7 +153,7 @@ class _CoursesState extends State<Courses> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     cursos.clear();
-                    cursosAnt.add(Curso.empty('', '', 1));
+                    cursosAnt.add(Curso.empty(FirebaseAuth.instance.currentUser!.email!, '', '', 1));
                     for (var data in snapshot.data!) {
                       //print(i.toString());
                       cursos.add(Curso.fromJson(data));

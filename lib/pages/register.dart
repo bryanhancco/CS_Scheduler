@@ -4,7 +4,8 @@ import 'package:scheduler/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final Function()? onTap;
+  const RegisterScreen({super.key, required this.onTap});
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -44,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         wrongCredentials();
       }
-      //Navigator.pop(context);
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       wrongCredentials();
@@ -119,14 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: true,
               ),
               ElevatedButton(
-                onPressed: () {
-                  signUserUp();
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return const Home();
-                    },
-                  ));
-                }, 
+                onPressed: signUserUp,
                 child: const Text("Registrar"),
               ),
               Column(
@@ -138,13 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
-                      },
-                      ));
-                    }, 
+                    onPressed: widget.onTap,
                     child: const Text(
                       "Iniciar sesión",
                       style: TextStyle(

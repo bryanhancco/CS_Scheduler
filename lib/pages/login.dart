@@ -4,7 +4,8 @@ import 'package:scheduler/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final Function()? onTap;
+  const LoginScreen({super.key, required this.onTap});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -124,13 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return const RegisterScreen();
-                      },
-                      ));
-                    }, 
+                    onPressed: widget.onTap,
                     child: const Text(
                       "Registrese ahora",
                       style: TextStyle(
@@ -174,24 +169,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("background_login.png"),
-            fit: BoxFit.cover,
-          )
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Presentation(),
-              const SizedBox(height: 30.0,),
-              SignInBody(),
-              const SizedBox(height: 30.0,),
-              GoogleOption()
-            ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("background_login.png"),
+              fit: BoxFit.cover,
+            )
+          ),
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Presentation(),
+                  const SizedBox(height: 30.0,),
+                  SignInBody(),
+                  const SizedBox(height: 30.0,),
+                  GoogleOption()
+                ],
+              ),
+            ),
           ),
         ),
       ),
