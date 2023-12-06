@@ -183,7 +183,7 @@ class _CoursesState extends State<Courses> {
                             itemBuilder: (BuildContext context, int index) {
                               return CoursesTile(
                                   curso: cursos[index],
-                                  onDelete: deleteExistentCourse,
+                                  onDelete: deleteExistent,
                                   controllerDelete: _controllerDeleteCourse,
                                   onEdit: () {
                                     editCurso(cursos[index]);
