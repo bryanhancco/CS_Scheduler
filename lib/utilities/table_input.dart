@@ -124,6 +124,9 @@ class _ColorChangingWidgetState extends State<ColorChangingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.horas.contains(widget.h)) {
+      _currentColor = Colors.red;
+    }
     return GestureDetector(
       onTap: () {
         // Cambiar el color al ser tocado

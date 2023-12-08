@@ -3,6 +3,7 @@ import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
 import 'package:scheduler/database/scheduler_database.dart';
 import 'package:provider/provider.dart';
+import 'package:scheduler/exporter/pdfExporter.dart';
 import 'package:scheduler/providers/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:scheduler/pages/auth_page.dart';
@@ -13,7 +14,6 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  
   void signUserOut() {
     FirebaseAuth.instance.signOut();
     print(FirebaseAuth.instance.currentUser!.email!);
@@ -23,13 +23,12 @@ class _MyDrawerState extends State<MyDrawer> {
       },
     ));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final courseProvider = Provider.of<CourseProvider>(context);
     List<Curso> items = courseProvider.cursos;
     return Drawer(
-      
       child: Column(
         children: [
           Container(
