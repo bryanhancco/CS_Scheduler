@@ -165,9 +165,12 @@ class _CreateTurnoDialogBoxState extends State<CreateTurnoDialogBox> {
                   // Ambos campos están llenos, muestra el mensaje de éxito
                   //mostrarSnackBar(context, 'Seleccione un turno');
                   mostrarMensaje(context, 'CAMPO VACIO', 'Seleccione un turno');
+                } else if (widget.horasSelec.isEmpty) {
+                  mostrarMensaje(
+                      context, 'FALTA HORAS', 'Seleccione las horas del turno');
                 } else {
                   // Muestra un mensaje de error si la validación falla
-                  mostrarSnackBar(context, widget.horasSelec.toString());
+                  //mostrarSnackBar(context, widget.horasSelec.toString());
                   widget.onSave();
                 }
               },
