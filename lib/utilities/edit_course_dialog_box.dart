@@ -44,7 +44,7 @@ class _EditCourseDialogBoxState extends State<EditCourseDialogBox> {
           borderRadius: BorderRadius.all(Radius.circular(15))),
       content: Container(
           width: queryData.size.width * 0.6,
-          height: 390,
+          height: 460,
           child: Column(children: [
             Container(
               child: Padding(
@@ -70,7 +70,7 @@ class _EditCourseDialogBoxState extends State<EditCourseDialogBox> {
               ),
             ),
             Container(
-              height: 330,
+              //height: 330,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -87,7 +87,7 @@ class _EditCourseDialogBoxState extends State<EditCourseDialogBox> {
                     children: [
                       const Text("Nombre Corto:"),
                       Container(
-                        width: 100,
+                        width: 70,
                         child: TextField(
                           controller: widget.controllerCourseShortName,
                           decoration: InputDecoration(
@@ -129,7 +129,7 @@ class _EditCourseDialogBoxState extends State<EditCourseDialogBox> {
                       onPressed: widget.onSave,
                       color: const Color.fromRGBO(0, 137, 236, 1),
                       child: const Text(
-                        "Modficar",
+                        "Modificar",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
