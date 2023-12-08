@@ -42,8 +42,11 @@ class _CoursesState extends State<Courses> {
   saveNewCourse() {
     setState(() {
       categoria = (_categoria.text == 'true') ? 1 : 0;
-      Curso curso = Curso.empty(FirebaseAuth.instance.currentUser!.email!, _controllerCourseShortName.text,
-          _controllerCourseName.text, categoria);
+      Curso curso = Curso.empty(
+          FirebaseAuth.instance.currentUser!.email!,
+          _controllerCourseShortName.text,
+          _controllerCourseName.text,
+          categoria);
       addCourse(curso);
       _controllerCourseShortName.clear();
       _controllerCourseName.clear();
@@ -84,7 +87,6 @@ class _CoursesState extends State<Courses> {
   }
 
   void deleteExistent() {
-    print(_controllerDeleteCourse.text);
     deleteCourse(_controllerDeleteCourse.text);
     _controllerDeleteCourse.clear();
     //setState(() {});
@@ -92,7 +94,6 @@ class _CoursesState extends State<Courses> {
   }
 
   void deleteExistentCourse() {
-    print(_controllerDeleteCourse.text);
     showDialog(
       context: context,
       builder: (context) {
@@ -153,7 +154,8 @@ class _CoursesState extends State<Courses> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     cursos.clear();
-                    cursosAnt.add(Curso.empty(FirebaseAuth.instance.currentUser!.email!, '', '', 1));
+                    cursosAnt.add(Curso.empty(
+                        FirebaseAuth.instance.currentUser!.email!, '', '', 1));
                     for (var data in snapshot.data!) {
                       //print(i.toString());
                       cursos.add(Curso.fromJson(data));
@@ -185,6 +187,7 @@ class _CoursesState extends State<Courses> {
                             //construye la lista
                             itemBuilder: (BuildContext context, int index) {
                               return CoursesTile(
+                                  indiceCurso: index,
                                   curso: cursos[index],
                                   onDelete: deleteExistent,
                                   controllerDelete: _controllerDeleteCourse,

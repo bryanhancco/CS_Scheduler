@@ -54,8 +54,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               body: SfCalendar(
                 view: CalendarView.workWeek,
                 initialSelectedDate: DateTime(2023, 12, 12, 12),
-                dataSource: CourseDataSource(
-                    cursos, shiftProvider.turnos, shiftProvider.checked),
+                dataSource: CourseDataSource(courseProvider.cursos,
+                    shiftProvider.turnos, shiftProvider.checked),
                 firstDayOfWeek: 1,
                 timeSlotViewSettings: const TimeSlotViewSettings(
                   startHour: 7,

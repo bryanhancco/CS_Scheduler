@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:scheduler/classes/models.dart';
 import 'package:scheduler/database/firebase_operations.dart';
+import 'package:scheduler/providers/provider.dart';
 import 'package:scheduler/utilities/create_shift_dialog_box.dart';
 import 'package:scheduler/utilities/shifts_tile.dart';
 
 class DetallesCursoPage extends StatefulWidget {
+  final int indiceCurso;
   final Curso curso;
-  const DetallesCursoPage({super.key, required this.curso});
+  const DetallesCursoPage(
+      {super.key, required this.curso, required this.indiceCurso});
 
   @override
   State<DetallesCursoPage> createState() => _DetallesCursoPageState();
@@ -74,6 +78,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ShiftProvider shiftProvider = context.read<ShiftProvider>();
     List<Turno> turnos = widget.curso.CurTur;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -109,6 +114,7 @@ class _DetallesCursoPageState extends State<DetallesCursoPage> {
                   index: index,
                   onDelete: () {
                     removeTurno(index);
+                    shiftProvider.resetshift(widget.indiceCurso, index);
                   },
                 );
               },

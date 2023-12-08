@@ -4,12 +4,14 @@ import 'package:scheduler/pages/detallesCursoPage.dart';
 import 'package:scheduler/database/firebase_operations.dart';
 
 class CoursesTile extends StatelessWidget {
+  final int indiceCurso;
   final Curso curso;
   final VoidCallback onDelete;
   final controllerDelete;
   final VoidCallback onEdit;
   const CoursesTile({
     super.key,
+    required this.indiceCurso,
     required this.curso,
     required this.onDelete,
     required this.controllerDelete,
@@ -26,7 +28,7 @@ class CoursesTile extends StatelessWidget {
         // Por ejemplo, navegación a otra página:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
-            return DetallesCursoPage(curso: curso);
+            return DetallesCursoPage(indiceCurso: indiceCurso, curso: curso);
           },
         ));
       },

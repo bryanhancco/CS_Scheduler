@@ -32,6 +32,14 @@ class ShiftProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetshift(int ncurso, int nturno) {
+    if (_turnos[ncurso] == nturno || nturno == 0) {
+      _turnos[ncurso] = 0;
+    } else {
+      _turnos[ncurso] = nturno - 1;
+    }
+  }
+
   void initShifts(int num) {
     _isChecked.clear();
     _turnos.clear();
