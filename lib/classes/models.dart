@@ -19,7 +19,8 @@ class Curso {
     required this.CurTur,
   });
 
-  Curso.empty(this.UserEmail, this.CurCod, this.CurNom, this.isRequired) : CurTur = [];
+  Curso.empty(this.UserEmail, this.CurCod, this.CurNom, this.isRequired)
+      : CurTur = [];
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,7 +40,8 @@ class Curso {
   static Curso fromJson(Map<String, dynamic> json) {
     var listaTurnos = json['CurTur'] as List;
     if (listaTurnos.isEmpty) {
-      return Curso.empty(json['UserEmail'], json['CurCod'], json['CurNom'], json['CurReq']);
+      return Curso.empty(
+          json['UserEmail'], json['CurCod'], json['CurNom'], json['CurReq']);
     } else {
       return Curso(
         UserEmail: json['UserEmail'],
@@ -127,7 +129,7 @@ class CourseDataSource extends CalendarDataSource {
     'Viernes'
   ];
 
-  List<int> diasInt = [4, 5, 6, 7, 8];
+  List<int> diasInt = [11, 12, 13, 14, 15]; //Dias de la semana
   List<Color> colores = [];
 
   var today;
